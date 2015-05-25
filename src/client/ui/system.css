@@ -1,0 +1,56 @@
+.globalNoSelect {
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+
+.globalClickable {
+    cursor: hand;
+    cursor: pointer;
+}
+
+.globalNoIBar {
+    cursor: default;
+}
+
+.globalNoDrag {
+}
+
+
+.globalHidden {
+    display: none;
+}
+
+.globalInline {
+    display: inline-block;
+    display: -moz-inline-stack; /* for firefox 2 */
+    *display: inline; /* for ie 6 and 7 */
+}
+
+.globalScrollHorizontal {
+    overflow-x: auto;
+}
+
+.globalScrollHorizontalForced {
+    overflow-x: scroll;
+}
+
+.globalScrollVertical {
+    overflow-y: auto;
+}
+
+.globalScrollVerticalForced {
+    overflow-y: scroll;
+}
+
+.globalScrollBoth {
+    overflow: auto;
+}
+
+.globalScrollBothForced {
+    overflow: scroll;
+}

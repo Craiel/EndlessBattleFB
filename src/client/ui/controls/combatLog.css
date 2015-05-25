@@ -1,0 +1,35 @@
+.logEntryNormal {
+    include: globalTextFont;
+    color: #bdbdbd;
+}
+
+.logEntryXp {
+    include: globalTextFont;
+    include: globalColorGreen;
+}
+
+.logEntryGold {
+    include: globalTextFont;
+    color: gold;
+}
+
+.logEntryGoldIcon {
+    width: 12px;
+    height: 12px;
+}
+
+.combatLogActor {
+    include: globalTextFont;
+    include: globalColorWhite;
+    font-weight: bold;
+}
+
+.combatLogCritical {
+    include: globalTextFont;
+    include: globalColorUIRed;
+}
+
+.combatLogDamage {
+    include: globalTextFont;
+    include: globalColorUIRed;
+}

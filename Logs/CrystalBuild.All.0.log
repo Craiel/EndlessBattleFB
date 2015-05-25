@@ -1,0 +1,137 @@
+0	N/A(1)	N/A	N/A	CrystalBuild.exe Warning: 0 : 
+14253	N/A(1)	N/A	N/A	No resources to register!
+19840	N/A(1)	N/A	N/A	CrystalBuild.exe Warning: 0 : 
+19990	N/A(1)	N/A	N/A	No data found to build!
+43108	CrystalBuild.exe(1)	Information	0	Building 1 Templates into D:\Dev\EndlessBattleFC\vanilla\src\data\generated\templates.js
+50512	CrystalBuild.exe(1)	Information	0	  emptyElement.html
+72364	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+72543	N/A(1)	N/A	N/A	
+72974	CrystalBuild.exe(1)	Information	0	Result for Building Templates
+73315	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+73492	N/A(1)	N/A	N/A	 -------------------
+75061	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+75140	N/A(1)	N/A	N/A	
+75540	CrystalBuild.exe(1)	Information	0	Building Templates Done with 0 Errors, 0 Warnings
+
+
+83890	CrystalBuild.exe(1)	Information	0	Building 30 Sources into D:\Dev\EndlessBattleFC\vanilla\bin\release\endless_raw.js
+86506	CrystalBuild.exe(1)	Information	0	  system.js
+130289	CrystalBuild.exe(1)	Information	0	  loader.js
+133674	CrystalBuild.exe(1)	Information	0	  init.js
+141180	CrystalBuild.exe(1)	Information	0	  assert.js
+148518	CrystalBuild.exe(1)	Information	0	  base64.js
+165537	CrystalBuild.exe(1)	Information	0	  component.js
+231829	CrystalBuild.exe(1)	Information	0	  coreSave.js
+285621	CrystalBuild.exe(1)	Information	0	  coreUtils.js
+319518	CrystalBuild.exe(1)	Information	0	  eventAggregate.js
+324106	CrystalBuild.exe(1)	Information	0	  gameTime.js
+331217	CrystalBuild.exe(1)	Information	0	  log.js
+349016	CrystalBuild.exe(1)	Information	0	  lzw.js
+366594	CrystalBuild.exe(1)	Information	0	  mathExtension.js
+384286	CrystalBuild.exe(1)	Information	0	  type.js
+406611	CrystalBuild.exe(1)	Information	0	  templates.js
+408205	CrystalBuild.exe(1)	Information	0	  debug.js
+421087	CrystalBuild.exe(1)	Information	0	  fbData.js
+429463	CrystalBuild.exe(1)	Information	0	  fbMain.js
+523462	CrystalBuild.exe(1)	Information	0	  fmMain.js
+552601	CrystalBuild.exe(1)	Information	0	  game.js
+604769	CrystalBuild.exe(1)	Information	0	  legacyGame.js
+1105302	CrystalBuild.exe(1)	Information	0	  save.js
+1111662	CrystalBuild.exe(1)	Information	0	  saveKeys.js
+1118214	CrystalBuild.exe(1)	Information	0	  settings.js
+1125587	CrystalBuild.exe(1)	Information	0	  staticData.js
+1129677	CrystalBuild.exe(1)	Information	0	  utils.js
+1149795	CrystalBuild.exe(1)	Information	0	  templateProvider.js
+1155819	CrystalBuild.exe(1)	Information	0	  userInterface.js
+1233685	CrystalBuild.exe(1)	Information	0	  combatLog.js
+1266860	CrystalBuild.exe(1)	Information	0	  main.js
+1412551	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+1412838	N/A(1)	N/A	N/A	
+1414167	CrystalBuild.exe(1)	Information	0	Result for Building Sources
+1424976	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+1425140	N/A(1)	N/A	N/A	 -------------------
+1427527	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+1427605	N/A(1)	N/A	N/A	
+1429514	CrystalBuild.exe(1)	Information	0	Building Sources Done with 0 Errors, 0 Warnings
+
+
+11135233	CrystalBuild.exe(1)	Information	0	Building 4 Style-sheets into D:\Dev\EndlessBattleFC\vanilla\bin\release\endless.css
+11143734	CrystalBuild.exe(1)	Information	0	  common.css
+11146149	CrystalBuild.exe(1)	Information	0	  layout.css
+11147015	CrystalBuild.exe(1)	Information	0	  system.css
+11147695	CrystalBuild.exe(1)	Information	0	  combatLog.css
+11250335	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+11250486	N/A(1)	N/A	N/A	
+11250914	CrystalBuild.exe(1)	Information	0	Result for Building Style-sheets
+11252585	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+11252675	N/A(1)	N/A	N/A	 -------------------
+11253545	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: resetConfirmWindow
+11255184	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: navBarWindow
+11255823	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: goldCoin
+11256884	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: expOrb
+11257969	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: powerShard
+11258783	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: bleedingIcon
+11259901	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: burningIcon
+11260863	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: chilledIcon
+11262137	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: smallBarBackground
+11264651	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: smallBarBorder
+11265442	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: playerHealthBar
+11266424	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: resurrectionBar
+11267510	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: monsterHealthBar
+11268548	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: eventButton
+11269234	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: buffIcon
+11272182	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: buffBar
+11272470	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: expBarBackground
+11273861	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: expBar
+11274860	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: expBarBorder
+11276214	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: stoneButton
+11278009	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: battleLevelButton
+11281427	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: attackButton
+11282692	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: characterWindowButton
+11283653	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: mercenariesWindowButton
+11284778	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: upgradesWindowButton
+11285790	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: upgradesWindowButtonGlow
+11286851	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: questsWindowButton
+11287892	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: questsWindowButtonGlow
+11289251	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: craftingWindowButton
+11290305	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: inventoryWindowButton
+11291283	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: inventoryWindow
+11292183	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: closeButton
+11293074	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: characterWindow
+11294049	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: mercenariesWindow
+11295108	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: buyButton
+11296161	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: footmanIcon
+11296589	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: clericIcon
+11297530	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: commanderIcon
+11298557	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: mageIcon
+11299480	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: assassinIcon
+11300613	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: warlockIcon
+11302367	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: upgradesWindow
+11303313	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: questsWindow
+11303998	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: statUpgradesWindow
+11304908	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: statUpgradeButton
+11306026	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: statIcon
+11307159	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: abilityUpgradesWindow
+11308186	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: abilityUpgradeButton
+11308717	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: rendIcon
+11309724	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: rejuvenatingStrikesIcon
+11310710	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: iceBladeIcon
+11311829	CrystalBuild.exe(1)	Warning	0	 - WARNING: Style contains image reference: fireBladeIcon
+11312809	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: resetConfirmWindowYesButton
+11313892	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: resetConfirmWindowNoButton
+11315174	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: optionsWindowOption
+11316104	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: inventoryWindowSellAllButton
+11317259	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: buyButton
+11318776	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: questName
+11321798	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: itemTooltipStats
+11323022	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: button
+11323496	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: checkbox
+11324418	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: checkbox
+11325831	CrystalBuild.exe(1)	Error	0	 - ERROR: Duplicate style: checkbox
+11327340	CrystalBuild.exe(1)	Error	0	 - ERROR: Included style not found, globalColorLightText in globalTextElement
+11328593	N/A(1)	N/A	N/A	CrystalBuild.exe Information: 0 : 
+11328687	N/A(1)	N/A	N/A	
+11330761	CrystalBuild.exe(1)	Information	0	Building Style-sheets Done with 12 Errors, 52 Warnings
+
+
+11341206	CrystalBuild.exe(1)	Information	0	Copying 37 Content into D:\Dev\EndlessBattleFC\vanilla\bin\release\
