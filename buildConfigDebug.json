@@ -19,7 +19,7 @@
   ],
   "Sources": [
   	{
-      "Directory": "..\\src\\common\\",
+      "Directory": "src\\common\\",
       "FilterStrings": [ "system.js", "loader.js" ]
     },
     {
@@ -27,7 +27,7 @@
       "FilterStrings": [ "init.js" ]
     },
     {
-      "Directory": "..\\src\\common\\",
+      "Directory": "src\\common\\",
       "FilterStrings": [
         "*.js"
       ],

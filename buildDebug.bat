@@ -5,4 +5,4 @@ echo -----------------------
 echo Building
 echo.
 
-"..\Build\Release\CrystalBuild.exe" -p buildConfigDebug.json -d
+"Build\Release\CrystalBuild.exe" -p buildConfigDebug.json -d

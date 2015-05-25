@@ -1,5 +1,0 @@
-{
-    "version": 0.5,
-    "changeTitle": "Endless Improvements by feildmaster",
-    "changeDetails": "<div> Integrated some of Endless Improvements functionality into the core game</div>"
-}
