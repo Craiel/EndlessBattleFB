@@ -15,7 +15,7 @@ function Player() {
     this.baseStats.agility = 0;
     this.baseStats.stamina = 0;
     this.baseStats.critChance = 5;
-    this.baseStats.critDamage = 200;
+    this.baseStats.critDamage = 150;
     this.baseStats.itemRarity = 0;
     this.baseStats.goldGain = 0;
     this.baseStats.experienceGain = 0;
@@ -68,7 +68,12 @@ function Player() {
 
     // Stat calculation functions
     this.getMaxHealth = function getMaxHealth() {
-        return Math.floor((this.getStrength() * 5) + (((this.baseStats.health + this.levelUpBonuses.health + this.baseItemBonuses.health) * (((legacyGame.mercenaryManager.getCommanderHealthPercentBonus() * legacyGame.mercenaryManager.commandersOwned) / 100) + 1)) * legacyGame.getPowerShardBonus()));
+        var baseValue = this.baseStats.health + this.levelUpBonuses.health + this.baseItemBonuses.health;
+        baseValue += this.getStamina() * 5;
+        var multiplier = 1 + ((legacyGame.mercenaryManager.getCommanderHealthPercentBonus() * legacyGame.mercenaryManager.commandersOwned) / 100);
+        multiplier += legacyGame.getPowerShardBonus();
+
+        return Math.floor(baseValue * multiplier);
     }
     this.getHp5 = function getHp5() {
         return Math.floor(this.getStamina() + (((this.baseStats.hp5 + this.levelUpBonuses.hp5 + this.chosenLevelUpBonuses.hp5 + this.baseItemBonuses.hp5) * ((legacyGame.mercenaryManager.getClericHp5PercentBonus() * legacyGame.mercenaryManager.clericsOwned) / 100 + 1)) * legacyGame.getPowerShardBonus()));
@@ -77,22 +82,16 @@ function Player() {
         return (this.getDamageBonus() + 100) / 100;
     }
     this.getMinDamage = function getMinDamage() {
-        // If the player has a weapon equipped then remove the 1 unarmed damage
-        if (legacyGame.equipment.weapon() != null) {
-            return Math.floor((((this.baseStats.minDamage + this.baseItemBonuses.minDamage - 1) * this.getDamageBonusMultiplier()) * this.buffs.getDamageMultiplier()) * legacyGame.getPowerShardBonus());
-        }
-        else {
-            return this.baseStats.strength + Math.floor((((this.baseStats.minDamage + this.baseItemBonuses.minDamage) * this.getDamageBonusMultiplier()) * this.buffs.getDamageMultiplier()) * legacyGame.getPowerShardBonus());
-        }
+        var baseValue = this.getStrength() + this.baseStats.minDamage + this.baseItemBonuses.minDamage;
+        var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
+
+        return Math.floor(baseValue + multiplier);
     }
     this.getMaxDamage = function getMaxDamage() {
-        // If the player has a weapon equipped then remove the 2 unarmed damage
-        if (legacyGame.equipment.weapon() != null) {
-            return Math.floor((((this.baseStats.maxDamage + this.baseItemBonuses.maxDamage - 1) * this.getDamageBonusMultiplier()) * this.buffs.getDamageMultiplier()) * legacyGame.getPowerShardBonus());
-        }
-        else {
-            return this.baseStats.strength + Math.floor((((this.baseStats.maxDamage + this.baseItemBonuses.maxDamage) * this.getDamageBonusMultiplier()) * this.buffs.getDamageMultiplier()) * legacyGame.getPowerShardBonus());
-        }
+        var baseValue = this.getStrength() + this.baseStats.maxDamage + this.baseItemBonuses.maxDamage;
+        var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
+
+        return Math.floor(baseValue + multiplier);
     }
     this.getDamageBonus = function getDamageBonus() {
         return this.getStrength() + ((this.baseStats.damageBonus + this.chosenLevelUpBonuses.damageBonus + this.baseItemBonuses.damageBonus + (legacyGame.mercenaryManager.getMageDamagePercentBonus() * legacyGame.mercenaryManager.magesOwned)) * legacyGame.getPowerShardBonus());
@@ -118,10 +117,21 @@ function Player() {
         return Math.floor((this.baseStats.agility + this.chosenLevelUpBonuses.agility + this.baseItemBonuses.agility) * legacyGame.getPowerShardBonus());
     }
     this.getCritChance = function getCritChance() {
-        return ((this.baseStats.critChance + this.chosenLevelUpBonuses.critChance + this.baseItemBonuses.critChance)) * legacyGame.getPowerShardBonus();
+        var multiplier = 1;
+        var baseValue = this.baseStats.critChance + this.chosenLevelUpBonuses.critChance + this.baseItemBonuses.critChance;
+        baseValue += this.getAgility() / 100;
+        baseValue *= multiplier;
+
+        var coefficient = 75 + legacyGame.player.level * 0.1;
+        var value = (baseValue / coefficient) * 75;
+        if(value > 75) {
+            value = 75;
+        }
+
+        return value;
     }
     this.getCritDamage = function getCritDamage() {
-        return ((this.baseStats.critDamage + this.chosenLevelUpBonuses.critDamage + this.baseItemBonuses.critDamage) + (this.getAgility() * 0.2) + (legacyGame.mercenaryManager.getWarlockCritDamageBonus() * legacyGame.mercenaryManager.warlocksOwned)) * legacyGame.getPowerShardBonus();
+        return ((this.baseStats.critDamage + this.chosenLevelUpBonuses.critDamage + this.baseItemBonuses.critDamage) + (legacyGame.mercenaryManager.getWarlockCritDamageBonus() * legacyGame.mercenaryManager.warlocksOwned)) * legacyGame.getPowerShardBonus();
     }
     this.getItemRarity = function getItemRarity() {
         return (this.baseStats.itemRarity + this.chosenLevelUpBonuses.itemRarity + this.baseItemBonuses.itemRarity) * legacyGame.getPowerShardBonus();

@@ -961,15 +961,15 @@ function statUpgradeButtonHover(obj, index) {
             break;
         case StatUpgradeType.STRENGTH:
             $("#otherTooltipTitle").html("Strength");
-            $("#otherTooltipDescription").html("Increases your Health by 5 and Damage by 1%.");
+            $("#otherTooltipDescription").html("Increases your Min and Max Damage by 1 and overall Damage by 1%.");
             break;
         case StatUpgradeType.AGILITY:
             $("#otherTooltipTitle").html("Agility");
-            $("#otherTooltipDescription").html("Increases your Crit Damage by 0.2% and Evasion by 1%.");
+            $("#otherTooltipDescription").html("Increases your Crit Chance by 0.01% and Evasion by 1%.");
             break;
         case StatUpgradeType.STAMINA:
             $("#otherTooltipTitle").html("Stamina");
-            $("#otherTooltipDescription").html("Increases your Hp5 by 1 and your Armour by 1%.");
+            $("#otherTooltipDescription").html("Increases your Max HP by 5, Hp5 by 1 and Armour by 1%.");
             break;
         case StatUpgradeType.ARMOUR:
             $("#otherTooltipTitle").html("Armour");
@@ -1340,7 +1340,7 @@ function strengthStatHover(obj) {
     $("#otherTooltipTitle").html("Strength");
     $("#otherTooltipCooldown").html('');
     $("#otherTooltipLevel").html('');
-    $("#otherTooltipDescription").html("Increases your Health by 5 and Damage by 1%.");
+    $("#otherTooltipDescription").html("Increases your Min and Max Damage by 1 and overall Damage by 1%.");
     $("#otherTooltip").show();
     setTooltipLocation(obj);
 }
@@ -1348,7 +1348,7 @@ function agilityStatHover(obj) {
     $("#otherTooltipTitle").html("Agility");
     $("#otherTooltipCooldown").html('');
     $("#otherTooltipLevel").html('');
-    $("#otherTooltipDescription").html("Increases your Crit Damage by 0.2% and Evasion by 1%.");
+    $("#otherTooltipDescription").html("Increases your Crit Chance by 0.01% and Evasion by 1%.");
     $("#otherTooltip").show();
     setTooltipLocation(obj);
 }
@@ -1356,7 +1356,7 @@ function staminaStatHover(obj) {
     $("#otherTooltipTitle").html("Stamina");
     $("#otherTooltipCooldown").html('');
     $("#otherTooltipLevel").html('');
-    $("#otherTooltipDescription").html("Increases your Hp5 by 1 and Armour by 1%.");
+    $("#otherTooltipDescription").html("Increases your Max HP by 5, Hp5 by 1 and Armour by 1%.");
     $("#otherTooltip").show();
     setTooltipLocation(obj);
 }

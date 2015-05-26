@@ -1,5 +1,5 @@
 {
-    "version": 0.72,
-    "changeTitle": "Loot and Damage calculation update",
-    "changeDetails": "<div> * Mitigation from Armor is now capped at 90% and needs increasingly more armor with level</div><div> * Evasion is capped at 75% and needs increasingly more evasion per level</div><div> * Item rarity is now capped at 90% and needs increasingly more Item Rarity per level</div>"
+    "version": 0.8,
+    "changeTitle": "Balance update",
+    "changeDetails": "<div> * Re-balanced crit and crit damage calculation to provide a little more of a challenge and rely more on the actual items</div><div> * Monster health, XP and Auto Attack now scale a little more the higher you get to make</div>"
 }
