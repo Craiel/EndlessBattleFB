@@ -17,7 +17,7 @@ declare('Game', function() {
 
         this.id = "Game";
 
-        this.version = 0.71;
+        this.version = 0.72;
 
         this.autoSaveDelay = 30000; // 30s default
         this.autoSaveTime = undefined;

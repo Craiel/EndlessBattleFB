@@ -48,7 +48,7 @@ function Player() {
     this.lastGoldGained = 0;
     this.experience = 0;
     this.baseExperienceRequired = 10;
-    this.experienceRequired = Math.ceil(Sigma(this.level * 2) * Math.pow(1.05, this.level) + this.baseExperienceRequired);
+    this.experienceRequired = 0;
     this.lastExperienceGained = 0;
     this.powerShards = 0;
 
@@ -238,7 +238,7 @@ function Player() {
             this.experience -= this.experienceRequired;
             this.level++;
             this.skillPoints++;
-            this.experienceRequired = Math.ceil(Sigma(this.level * 2) * Math.pow(1.05, this.level) + this.baseExperienceRequired);
+            this.experienceRequired = legacyGame.player.getExperienceRequired();
 
             // If this number is not divisible by 5 then add a random stat upgrade
             if (this.level % 5 != 0) {
@@ -287,11 +287,11 @@ function Player() {
     // Calculate the amount of reduction granted by armour
     this.calculateDamageReduction = function calculateDamageReduction() {
         // Calculate the reduction
-        var reduction = this.getArmour() / (this.getArmour() + 500) * 99
+        var reduction = (this.getArmour() / Math.pow(1.055, legacyGame.player.level)) * 90
 
-        // Cap the reduction at 99%
-        if (reduction >= 99) {
-            reduction = 99;
+        // Cap the reduction at 90%
+        if (reduction >= 90) {
+            reduction = 90;
         }
 
         return reduction;
@@ -300,7 +300,7 @@ function Player() {
     // Calculate the chance the player has of dodging an attack
     this.calculateEvasionChance = function calculateEvasionChance() {
         // Calculate the chance
-        var chance = (this.getEvasion() / (this.getEvasion() + 375)) * 75;
+        var chance = (this.getEvasion() / Math.pow(1.052, legacyGame.player.level)) * 75;
 
         // Cap the dodge at 75%
         if (chance >= 75) {
@@ -488,6 +488,10 @@ function Player() {
         localStorage.powerShards = this.powerShards;
     }
 
+    this.getExperienceRequired = function() {
+        return Math.ceil(Sigma(legacyGame.player.level * 2) * Math.pow(1.055, legacyGame.player.level) + legacyGame.player.baseExperienceRequired);
+    };
+
     // Load all the player's data
     this.load = function load() {
         if (localStorage.playerSaved != null) {
@@ -533,7 +537,6 @@ function Player() {
             this.gold = parseFloat(localStorage.playerGold);
             this.level = parseInt(localStorage.playerLevel);
             this.experience = parseFloat(localStorage.playerExperience);
-            this.experienceRequired = Math.ceil(Sigma(this.level * 2) * Math.pow(1.05, this.level) + this.baseExperienceRequired);
 
             this.skillPointsSpent = parseInt(localStorage.playerSkillPointsSpent);
             this.skillPoints = parseInt(localStorage.playerSkillPoints);
@@ -556,5 +559,8 @@ function Player() {
         }
 
         if (localStorage.playerAlive != null) { this.alive = JSON.parse(localStorage.playerAlive); }
+
+        // Update the required XP after load
+        this.experienceRequired = legacyGame.player.getExperienceRequired();
     }
 }

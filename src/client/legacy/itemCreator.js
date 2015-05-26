@@ -1,30 +1,36 @@
 function ItemCreator() {
     this.getRandomItemRarity = function getRandomItemRarity(monsterRarity) {
         var rand = Math.random();
+        var rarityCoefficient = Math.pow(1.04, legacyGame.player.level);
+        var rarityMultiplier = 1 + (legacyGame.player.getItemRarity() / rarityCoefficient);
+        if(rarityMultiplier > 90) {
+            rarityMultiplier = 90;
+        }
+
         switch (monsterRarity) {
             case MonsterRarity.COMMON:
                 if (rand < 0.20) {
                     rand = Math.random();
-                    if (rand < (0.00001 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.LEGENDARY; }
-                    else if (rand < (0.0001 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.EPIC; }
-                    else if (rand < (0.001 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.RARE; }
-                    else if (rand < (0.01 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.UNCOMMON; }
+                    if (rand < 0.00001 * rarityMultiplier) { return ItemRarity.LEGENDARY; }
+                    else if (rand < 0.0001 * rarityMultiplier) { return ItemRarity.EPIC; }
+                    else if (rand < 0.001 * rarityMultiplier) { return ItemRarity.RARE; }
+                    else if (rand < 0.01 * rarityMultiplier) { return ItemRarity.UNCOMMON; }
                     else { return ItemRarity.COMMON; }
                 }
                 break;
             case MonsterRarity.RARE:
-                if (rand < (0.0001 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.LEGENDARY; }
-                else if (rand < (0.001 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.EPIC; }
-                else if (rand < (0.01 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.RARE; }
+                if (rand < 0.0001 * rarityMultiplier) { return ItemRarity.LEGENDARY; }
+                else if (rand < 0.001 * rarityMultiplier) { return ItemRarity.EPIC; }
+                else if (rand < 0.01 * rarityMultiplier) { return ItemRarity.RARE; }
                 else { return ItemRarity.UNCOMMON; }
                 break;
             case MonsterRarity.ELITE:
-                if (rand < (0.001 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.LEGENDARY; }
-                else if (rand < (0.01 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.EPIC; }
+                if (rand < 0.001 * rarityMultiplier) { return ItemRarity.LEGENDARY; }
+                else if (rand < 0.01 * rarityMultiplier) { return ItemRarity.EPIC; }
                 else { return ItemRarity.RARE; }
                 break;
             case MonsterRarity.BOSS:
-                if (rand < (0.01 * ((legacyGame.player.getItemRarity() / 100) + 1))) { return ItemRarity.LEGENDARY; }
+                if (rand < 0.01 * rarityMultiplier) { return ItemRarity.LEGENDARY; }
                 else { return ItemRarity.EPIC; }
                 break;
         }
