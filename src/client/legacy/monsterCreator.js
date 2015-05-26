@@ -18,7 +18,7 @@ function MonsterCreator() {
 
     // Calculate how much health a monster would have of a certain level and rarity
     this.calculateMonsterHealth = function calculateMonsterHealth(level, rarity) {
-        var health = Sigma(level) * Math.pow(1.05, level) + this.monsterBaseHealth;
+        var health = Sigma(level) * Math.pow(1.054, level) + this.monsterBaseHealth;
         health = Math.ceil(health);
         switch (rarity) {
             case "COMMON":
@@ -38,7 +38,7 @@ function MonsterCreator() {
 
     // Calculate how much damage a monster would have of a certain level and rarity
     this.calculateMonsterDamage = function calculateMonsterDamage(level, rarity) {
-        var damage = (Sigma(level) * Math.pow(1.01, level)) / 3 + this.monsterBaseDamage;
+        var damage = (Sigma(level) * Math.pow(1.015, level)) / 3 + this.monsterBaseDamage;
         damage = Math.ceil(damage);
         switch (rarity) {
             case "COMMON":
@@ -58,7 +58,7 @@ function MonsterCreator() {
 
     // Calculate how much gold a monster would give of a certain level and rarity
     this.calculateMonsterGoldWorth = function calculateMonsterGoldWorth(level, rarity) {
-        var goldWorth = (Sigma(level) * Math.pow(1.01, level)) / 4 + this.monsterBaseGoldWorth;
+        var goldWorth = (Sigma(level) * Math.pow(1.008, level)) / 4 + this.monsterBaseGoldWorth;
         goldWorth = Math.ceil(goldWorth);
         switch (rarity) {
             case "COMMON":
@@ -78,7 +78,7 @@ function MonsterCreator() {
 
     // Calculate how much experience a monster would give of a certain level and rarity
     this.calculateMonsterExperienceWorth = function calculateMonsterExperienceWorth(level, rarity) {
-        var experienceWorth = (Sigma(level) * Math.pow(1.01, level)) / 5 + this.monsterBaseExperienceWorth;
+        var experienceWorth = (Sigma(level) * Math.pow(1.008, level)) / 5 + this.monsterBaseExperienceWorth;
         experienceWorth = Math.ceil(experienceWorth);
         switch (rarity) {
             case "COMMON":

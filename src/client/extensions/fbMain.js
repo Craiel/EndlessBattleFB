@@ -294,7 +294,8 @@ function FrozenBattle() {
     };
 
     this.getAutoAttackTime = function() {
-        var time = 10000;
+        // Base time is 10s and increasing by 5% of the player level in ms
+        var time = 10000 + (legacyGame.player.level * 100);
         var deduction = 0;
         deduction += legacyGame.mercenaryManager.footmenOwned * 10;
         deduction += legacyGame.mercenaryManager.clericsOwned * 20;
@@ -308,8 +309,8 @@ function FrozenBattle() {
         
         deduction *= multiplier;
         time -= deduction;
-        if (time < 10) {
-            return 10;
+        if (time < 25) {
+            return 25;
         }
 
         return time;
