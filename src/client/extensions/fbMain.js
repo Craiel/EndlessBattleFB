@@ -115,8 +115,6 @@ function FrozenBattle() {
         self.settings.save();
 
         self.registerHooks();
-
-        self.updateUI();
     }
 
     this.onCreateMonster = function(level, rarity) {
@@ -126,7 +124,6 @@ function FrozenBattle() {
 
     this.onPurchaseMercenary = function(type) {
         legacyGame.mercenaryManager.native_purchaseMercenary(type);
-        legacyGame.FrozenBattle.updateUI();
     }
 
     this.onGetCritChance = function() {
@@ -887,7 +884,6 @@ function FrozenBattle() {
 
         frozenUtils.logCallback = this.onLog;
 
-        this.updateUI();
         this.updateInterfaceStats();
     }
 
@@ -906,7 +902,6 @@ function FrozenBattle() {
         if (self.settings.autoCombatLevel >= legacyGame.player.level) {
             self.settings.autoCombatLevel = legacyGame.player.level - 1;
         }
-        self.updateUI();
     }
 
     this.onModifyBattleLevelDifference = function(value) {
@@ -918,19 +913,16 @@ function FrozenBattle() {
         if (self.settings.autoCombatMaxLevelDifference >= legacyGame.player.level) {
             self.settings.autoCombatMaxLevelDifference = legacyGame.player.level - 1;
         }
-        self.updateUI();
     }
 
     this.onToggleBoolSetting = function(setting) {
         var self = legacyGame.FrozenBattle;
         self.settings[setting] = !self.settings[setting];
-        self.updateUI();
     }
     
     this.onIncreaseStat = function(key) {
         var self = legacyGame.FrozenBattle;
         if(self.increaseStat(key)) {
-            self.updateUI();
         }
     }
     
@@ -938,7 +930,6 @@ function FrozenBattle() {
         var self = legacyGame.FrozenBattle;
         self.settings.applyLevelResetBonus = !self.settings.applyLevelResetBonus;
         self.applyLevelResetBonus();
-        self.updateUI();
     }
 
     this.onToggleAutoSellThreshold = function() {
@@ -949,7 +940,6 @@ function FrozenBattle() {
         else {
             self.settings.autoSellThreshold = self.getRarityNumber(self.minRarity);
         }
-        self.updateUI();
     }
 
     this.onToggleOptionNumberFormatting = function() {
@@ -962,7 +952,6 @@ function FrozenBattle() {
         }
 
         self.updateMercenarySalePrices();
-        self.updateUI();
     }
 
     this.onSortInventory = function() {

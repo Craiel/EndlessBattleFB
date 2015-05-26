@@ -1055,7 +1055,7 @@ function rendUpgradeButtonHover(obj) {
     // If there is already a level in this ability then show the current version as well
     if (legacyGame.player.abilities.getRendLevel() > 0) {
         $("#abilityUpgradeTooltipLevel").html('Level ' + legacyGame.player.abilities.getRendLevel());
-        $("#abilityUpgradeTooltipDescription").html('Your attacks cause your opponent to bleed for <span class="yellowText">' + legacyGame.player.abilities.getRendDamage(0) + 
+        $("#abilityUpgradeTooltipDescription").html('Your attacks cause your opponent to bleed for <span class="yellowText">' + legacyGame.player.abilities.getRendDamage(0).formatMoney(0) +
             '</span> damage after every round for ' + legacyGame.player.abilities.rendDuration + ' rounds. Stacks up to 5 times.');
         $("#abilityUpgradeTooltipLevel2").html('Next Level');
     }
@@ -1064,7 +1064,7 @@ function rendUpgradeButtonHover(obj) {
         $("#abilityUpgradeTooltipDescription").html('');
         $("#abilityUpgradeTooltipLevel2").html('Level 1');
     }
-    $("#abilityUpgradeTooltipDescription2").html('Your attacks cause your opponent to bleed for <span class="yellowText">' + legacyGame.player.abilities.getRendDamage(1) + 
+    $("#abilityUpgradeTooltipDescription2").html('Your attacks cause your opponent to bleed for <span class="yellowText">' + legacyGame.player.abilities.getRendDamage(1).formatMoney(0) +
         '</span> damage after every round for ' + legacyGame.player.abilities.rendDuration + ' rounds. Stacks up to 5 times.');
     $("#abilityUpgradeTooltip").show();
 
@@ -1097,7 +1097,7 @@ function rejuvenatingStrikesUpgradeButtonHover(obj) {
     // If there is already a level in this ability then show the current version as well
     if (legacyGame.player.abilities.getRejuvenatingStrikesLevel() > 0) {
         $("#abilityUpgradeTooltipLevel").html('Level ' + legacyGame.player.abilities.getRejuvenatingStrikesLevel());
-        $("#abilityUpgradeTooltipDescription").html('Your attacks heal you for <span class="greenText">' + legacyGame.player.abilities.getRejuvenatingStrikesHealAmount(0) + 
+        $("#abilityUpgradeTooltipDescription").html('Your attacks heal you for <span class="greenText">' + legacyGame.player.abilities.getRejuvenatingStrikesHealAmount(0).formatMoney(0) +
             '</span> health.');
         $("#abilityUpgradeTooltipLevel2").html('Next Level');
     }
@@ -1106,7 +1106,7 @@ function rejuvenatingStrikesUpgradeButtonHover(obj) {
         $("#abilityUpgradeTooltipDescription").html('');
         $("#abilityUpgradeTooltipLevel2").html('Level 1');
     }
-    $("#abilityUpgradeTooltipDescription2").html('Your attacks heal you for <span class="greenText">' + legacyGame.player.abilities.getRejuvenatingStrikesHealAmount(1) + 
+    $("#abilityUpgradeTooltipDescription2").html('Your attacks heal you for <span class="greenText">' + legacyGame.player.abilities.getRejuvenatingStrikesHealAmount(1).formatMoney(0) +
         '</span> health.');
     $("#abilityUpgradeTooltip").show();
 
@@ -1139,7 +1139,7 @@ function iceBladeUpgradeButtonHover(obj) {
     // If there is already a level in this ability then show the current version as well
     if (legacyGame.player.abilities.getIceBladeLevel() > 0) {
         $("#abilityUpgradeTooltipLevel").html('Level ' + legacyGame.player.abilities.getIceBladeLevel());
-        $("#abilityUpgradeTooltipDescription").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getIceBladeDamage(0) + 
+        $("#abilityUpgradeTooltipDescription").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getIceBladeDamage(0).formatMoney(0) +
             '</span> bonus damage and chill them for ' + legacyGame.player.abilities.iceBladeChillDuration + ' rounds.');
         $("#abilityUpgradeTooltipLevel2").html('Next Level');
     }
@@ -1148,7 +1148,7 @@ function iceBladeUpgradeButtonHover(obj) {
         $("#abilityUpgradeTooltipDescription").html('');
         $("#abilityUpgradeTooltipLevel2").html('Level 1');
     }
-    $("#abilityUpgradeTooltipDescription2").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getIceBladeDamage(1) + 
+    $("#abilityUpgradeTooltipDescription2").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getIceBladeDamage(1).formatMoney(0) +
         '</span> damage and chill them for ' + legacyGame.player.abilities.iceBladeChillDuration + ' rounds.');
     $("#abilityUpgradeTooltip").show();
 
@@ -1181,8 +1181,8 @@ function fireBladeUpgradeButtonHover(obj) {
     // If there is already a level in this ability then show the current version as well
     if (legacyGame.player.abilities.getFireBladeLevel() > 0) {
         $("#abilityUpgradeTooltipLevel").html('Level ' + legacyGame.player.abilities.getFireBladeLevel());
-        $("#abilityUpgradeTooltipDescription").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getFireBladeDamage(0) + 
-            '</span> bonus damage and burn them for <span class="yellowText">' + legacyGame.player.abilities.getFireBladeBurnDamage(0) + 
+        $("#abilityUpgradeTooltipDescription").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getFireBladeDamage(0).formatMoney(0) +
+            '</span> bonus damage and burn them for <span class="yellowText">' + legacyGame.player.abilities.getFireBladeBurnDamage(0).formatMoney(0) +
             '</span> damage after every round for ' + legacyGame.player.abilities.fireBladeBurnDuration + ' rounds.');
         $("#abilityUpgradeTooltipLevel2").html('Next Level');
     }
@@ -1191,8 +1191,8 @@ function fireBladeUpgradeButtonHover(obj) {
         $("#abilityUpgradeTooltipDescription").html('');
         $("#abilityUpgradeTooltipLevel2").html('Level 1');
     }
-    $("#abilityUpgradeTooltipDescription2").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getFireBladeDamage(1) + 
-        '</span> bonus damage and burn them for <span class="yellowText">' + legacyGame.player.abilities.getFireBladeBurnDamage(1) + 
+    $("#abilityUpgradeTooltipDescription2").html('Your attacks deal <span class="yellowText">' + legacyGame.player.abilities.getFireBladeDamage(1).formatMoney(0) +
+        '</span> bonus damage and burn them for <span class="yellowText">' + legacyGame.player.abilities.getFireBladeBurnDamage(1).formatMoney(0) +
         '</span> damage after every round for ' + legacyGame.player.abilities.fireBladeBurnDuration + ' rounds.');
     $("#abilityUpgradeTooltip").show();
 

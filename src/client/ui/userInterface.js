@@ -290,6 +290,8 @@ declare('UserInterface', function () {
         } else {
             $("#resurrectionBarArea").hide();
         }
+
+        legacyGame.FrozenBattle.updateUI();
     };
 
     UserInterface.prototype.updateBattleDisplay = function(gameTime) {
