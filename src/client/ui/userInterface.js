@@ -3,6 +3,7 @@ declare('UserInterface', function () {
     include('Save');
     include('SaveKeys');
     include('CombatLog');
+    include('StaticData');
 
     UserInterface.prototype = component.prototype();
     UserInterface.prototype.$super = parent;
@@ -226,7 +227,6 @@ declare('UserInterface', function () {
         var upgradeArea = $('#upgradesBuyArea');
         for (var i = 0; i < legacyGame.upgradeManager.upgrades.length; i++) {
             var upgrade = legacyGame.upgradeManager.upgrades[i];
-            upgrade.id = i;
 
             var button = $('<div id="buyButton{0}" class="buyButton"></div>'.format(upgrade.id));
             button.mousedown({'id': upgrade.id}, function(args) { upgradeButtonMouseDown(args.data.id); });
@@ -279,6 +279,17 @@ declare('UserInterface', function () {
         this.updatePlayerAndMonster(gameTime);
         this.updateBattleDisplay(gameTime);
         this.updateUpgrades(gameTime);
+        this.updatePlayerStats(gameTime);
+
+        if(!legacyGame.player.alive) {
+            // Update the resurrection bar
+            var resurrectionPercentage = legacyGame.player.resurrectionTimeRemaining / legacyGame.player.resurrectionTimer;
+            $("#resurrectionBar").css('width', (staticData.progressBarWidth * resurrectionPercentage));
+            $("#resurrectionBar").css('height', '23');
+            document.getElementById("resurrectionBarText").innerHTML = "Resurrecting: " + Math.floor(resurrectionPercentage * 100) + "%";
+        } else {
+            $("#resurrectionBarArea").hide();
+        }
     };
 
     UserInterface.prototype.updateBattleDisplay = function(gameTime) {
@@ -354,12 +365,33 @@ declare('UserInterface', function () {
         }
     };
 
+    UserInterface.prototype.updatePlayerStats = function(gameTime) {
+        // Update the player's stats
+        $('#levelValue').text(legacyGame.player.level);
+        $('#healthValue').text(legacyGame.player.health.formatMoney(0) + ' / ' + legacyGame.player.getMaxHealth().formatMoney(0));
+        $('#hp5Value').text(legacyGame.player.getHp5().formatMoney(0));
+        $('#damageValue').text(legacyGame.player.getMinDamage().formatMoney(0) + ' - ' + legacyGame.player.getMaxDamage().formatMoney(0));
+        $('#damageBonusValue').text(legacyGame.player.getDamageBonus().formatMoney(2) + '%');
+        $('#armourValue').text(legacyGame.player.getArmour().formatMoney(0) + ' (' + legacyGame.player.calculateDamageReduction().formatMoney(2) + '%)');
+        $('#evasionValue').text(legacyGame.player.getEvasion().formatMoney(0) + ' (' + legacyGame.player.calculateEvasionChance().formatMoney(2) + '%)');
+
+        $('#strengthValue').text(legacyGame.player.getStrength().formatMoney(0));
+        $('#staminaValue').text(legacyGame.player.getStamina().formatMoney(0));
+        $('#agilityValue').text(legacyGame.player.getAgility().formatMoney(0));
+        $('#critChanceValue').text(legacyGame.player.getCritChance().formatMoney(2) + '%');
+        $('#critDamageValue').text(legacyGame.player.getCritDamage().formatMoney(0) + '%');
+
+        $('#itemRarityValue').text(legacyGame.player.getItemRarity().formatMoney(2) + '%');
+        $('#goldGainValue').text(legacyGame.player.getGoldGain().formatMoney(2) + '%');
+        $('#experienceGainValue').text(legacyGame.player.getExperienceGain().formatMoney(2) + '%');
+    }
+
     UserInterface.prototype.updatePlayerAndMonster = function(gameTime) {
         // Update the player's health bar
         var hpBar = $("#playerHealthBar");
-        hpBar.css('width', 198 * (legacyGame.player.health / legacyGame.player.getMaxHealth()));
+        hpBar.css('width', (staticData.progressBarWidth - 2) * (legacyGame.player.health / legacyGame.player.getMaxHealth()));
         hpBar.css('height', '23');
-        document.getElementById("playerHealthBarText").innerHTML = Math.floor(legacyGame.player.health) + '/' + Math.floor(legacyGame.player.getMaxHealth());
+        document.getElementById("playerHealthBarText").innerHTML = Math.floor(legacyGame.player.health).formatMoney(0) + ' / ' + Math.floor(legacyGame.player.getMaxHealth()).formatMoney(0);
 
         if (legacyGame.options.alwaysDisplayPlayerHealth) {
             $("#playerHealthBarText").show();
@@ -371,7 +403,7 @@ declare('UserInterface', function () {
         var expBar = $("#expBar");
         expBar.css('width', 718 * (legacyGame.player.experience / legacyGame.player.experienceRequired));
         expBar.css('height', '13');
-        document.getElementById("expBarText").innerHTML = Math.floor(legacyGame.player.experience) + '/' + legacyGame.player.experienceRequired;
+        document.getElementById("expBarText").innerHTML = Math.floor(legacyGame.player.experience).formatMoney(0) + ' / ' + legacyGame.player.experienceRequired.formatMoney(0);
 
         if (legacyGame.options.alwaysDisplayExp) {
             $("#expBarText").show();
@@ -381,13 +413,13 @@ declare('UserInterface', function () {
 
         // Update the monster's health bar
         hpBar = $("#monsterHealthBar");
-        hpBar.css('width', 198 * (legacyGame.monster.health / legacyGame.monster.maxHealth));
+        hpBar.css('width', (staticData.progressBarWidth - 2) * (legacyGame.monster.health / legacyGame.monster.maxHealth));
         hpBar.css('height', '23');
         hpBar.css('color', legacyGame.monsterCreator.getRarityColour(legacyGame.monster.rarity));
 
         // Set the monster's name or health on the screen
         if (legacyGame.displayMonsterHealth) {
-            document.getElementById("monsterName").innerHTML = Math.floor(legacyGame.monster.health) + '/' + Math.floor(legacyGame.monster.maxHealth);
+            document.getElementById("monsterName").innerHTML = Math.floor(legacyGame.monster.health).formatMoney(0) + ' / ' + Math.floor(legacyGame.monster.maxHealth).formatMoney(0);
         }
         else {
             document.getElementById("monsterName").innerHTML = "(Lv" + legacyGame.monster.level + ") " + legacyGame.monster.name;

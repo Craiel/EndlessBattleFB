@@ -498,7 +498,7 @@ function monsterKillQuests() {
     }
 
     function rewardBossKillQuest() {
-        legacyGame.player.gainExperience(Math.ceil(legacyGame.player.experienceRequired * bossKillPercentage / 100), false);
+        game.gainExperience(Math.ceil(legacyGame.player.experienceRequired * bossKillPercentage / 100), false);
         legacyGame.stats.experienceFromQuests += legacyGame.player.lastExperienceGained;
     }
 }

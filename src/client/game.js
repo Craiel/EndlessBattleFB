@@ -17,7 +17,7 @@ declare('Game', function() {
 
         this.id = "Game";
 
-        this.version = 0.5;
+        this.version = 0.71;
 
         this.autoSaveDelay = 30000; // 30s default
         this.autoSaveTime = undefined;
@@ -161,6 +161,9 @@ declare('Game', function() {
     };
 
     Game.prototype.gainExperience = function(value, includeBonuses) {
+        if(value === undefined) {
+            return;
+        }
 
         var multiplier = 1;
         if(includeBonuses) {
@@ -232,11 +235,16 @@ declare('Game', function() {
 
     Game.prototype.reset = function() {
         save.reset();
+
+        if(legacyGame.FrozenBattle !== undefined) {
+            // Turn off auto-sell on reset
+            legacyGame.FrozenBattle.settings.autoSellActive = false;
+            legacyGame.FrozenBattle.updateUI();
+        }
     };
 
     Game.prototype.onLoad = function() {
         // Perform some initial operation after being loaded
-        this.calculateMercenaryGps();
     };
 
     return new Game();

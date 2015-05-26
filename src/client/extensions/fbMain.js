@@ -608,6 +608,10 @@ function FrozenBattle() {
             legacyGame.player.baseStats.damageBonus += this.settings.levelsReset;
             legacyGame.player.baseStats.goldGain += this.settings.levelsReset;
             legacyGame.player.baseStats.experienceGain += this.settings.levelsReset;
+        } else {
+            legacyGame.player.baseStats.damageBonus -= this.settings.levelsReset;
+            legacyGame.player.baseStats.goldGain -= this.settings.levelsReset;
+            legacyGame.player.baseStats.experienceGain -= this.settings.levelsReset;
         }
     }
     
@@ -932,15 +936,7 @@ function FrozenBattle() {
     this.onToggleApplyLevelResetBonus = function() {
         var self = legacyGame.FrozenBattle;
         self.settings.applyLevelResetBonus = !self.settings.applyLevelResetBonus;
-        
-        if (self.settings.applyLevelResetBonus) {
-            self.applyLevelResetBonus();
-        } else {
-            legacyGame.player.baseDamageBonus -= self.settings.levelsReset;
-            legacyGame.player.baseGoldGain -= self.settings.levelsReset;
-            legacyGame.player.baseExperienceGain -= self.settings.levelsReset;
-        }
-        
+        self.applyLevelResetBonus();
         self.updateUI();
     }
 

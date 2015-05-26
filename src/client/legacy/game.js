@@ -425,6 +425,8 @@ function Game() {
     }
 
     this.reset = function reset() {
+        game.reset();
+
         localStorage.clear();
         // Player
         this.player = new Player();
@@ -448,12 +450,6 @@ function Game() {
         this.mercenaryManager = new mercenaryManager();
 
         // Upgrades
-        // Remove all the upgrade purchase buttons
-        var currentElement;
-        for (var x = 0; x < this.upgradeManager.upgradesAvailable; x++) {
-            currentElement = document.getElementById('upgradePurchaseButton' + (x + 1));
-            currentElement.parentNode.removeChild(currentElement);
-        }
         this.upgradeManager = new UpgradeManager();
 
         // Particles
@@ -521,20 +517,12 @@ function Game() {
                 // Update the timer
                 this.player.resurrectionTimeRemaining -= (ms / 1000);
 
-                // Update the bar
-                $("#resurrectionBar").css('width', (200 * (this.player.resurrectionTimeRemaining / this.player.resurrectionTimer)));
-                $("#resurrectionBar").css('height', '23');
-                document.getElementById("resurrectionBarText").innerHTML = "Resurrecting: " + Math.floor((this.player.resurrectionTimeRemaining / this.player.resurrectionTimer) * 100) + "%";
-
                 // Check if the player is now alive
                 if (this.player.resurrectionTimeRemaining <= 0) {
                     // Make the player alive
                     this.player.resurrecting = false;
                     this.player.health = this.player.getMaxHealth();
                     this.player.alive = true;
-
-                    // Hide the resurrection bar
-                    $("#resurrectionBarArea").hide();
 
                     // Display the other elements
                     this.allowBattle();
@@ -570,25 +558,6 @@ function Game() {
 
         // Update the particles
         this.particleManager.update(ms);
-
-        // Update the player's stats
-        document.getElementById("levelValue").innerHTML = this.player.level;
-        document.getElementById("healthValue").innerHTML = Math.floor(this.player.health) + '/' + Math.floor(this.player.getMaxHealth());
-        document.getElementById("hp5Value").innerHTML = this.player.getHp5().toFixed(2);
-        document.getElementById("damageValue").innerHTML = Math.floor(this.player.getMinDamage()) + ' - ' + Math.floor(this.player.getMaxDamage());
-        document.getElementById("damageBonusValue").innerHTML = this.player.getDamageBonus() + '%';
-        document.getElementById("armourValue").innerHTML = this.player.getArmour().toFixed(2) + ' (' + this.player.calculateDamageReduction().toFixed(2) + '%)';
-        document.getElementById("evasionValue").innerHTML = this.player.getEvasion().toFixed(2) + ' (' + this.player.calculateEvasionChance().toFixed(2) + '%)';
-
-        document.getElementById("strengthValue").innerHTML = this.player.getStrength();
-        document.getElementById("staminaValue").innerHTML = this.player.getStamina();
-        document.getElementById("agilityValue").innerHTML = this.player.getAgility();
-        document.getElementById("critChanceValue").innerHTML = this.player.getCritChance().toFixed(2) + '%';
-        document.getElementById("critDamageValue").innerHTML = this.player.getCritDamage().toFixed(2) + '%';
-
-        document.getElementById("itemRarityValue").innerHTML = this.player.getItemRarity().toFixed(2) + '%';
-        document.getElementById("goldGainValue").innerHTML = this.player.getGoldGain().toFixed(2) + '%';
-        document.getElementById("experienceGainValue").innerHTML = this.player.getExperienceGain().toFixed(2) + '%';
 
         // Update the select quest display
         var quest = this.questsManager.getSelectedQuest();

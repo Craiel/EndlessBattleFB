@@ -11,7 +11,7 @@ function Monster(name, level, rarity, health, damage, armour, goldWorth, experie
     this.experienceWorth = experienceWorth;
 
     this.debuffs = new DebuffManager();
-    this.debuffIconLeftPositionBase = 325;
+    this.debuffIconLeftPositionBase = 375;
     this.debuffIconTopPosition = 0;
     this.debuffLeftPositionIncrement = 30;
 

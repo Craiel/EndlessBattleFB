@@ -97,6 +97,11 @@ function UpgradeManager() {
         // Attack Upgrades
         this.upgrades.push(new Upgrade("Power Strike", legacyGame.monsterCreator.calculateMonsterGoldWorth(50, MonsterRarity.COMMON) * 400, UpgradeType.ATTACK, UpgradeRequirementType.LEVEL, 50, "Upgrades your attack to Power Strike", 0, 80));
         this.upgrades.push(new Upgrade("Double Strike", legacyGame.monsterCreator.calculateMonsterGoldWorth(100, MonsterRarity.COMMON) * 400, UpgradeType.ATTACK, UpgradeRequirementType.LEVEL, 100, "Upgrades your attack to Double Strike", 200, 80));
+
+        // Write the id for each upgrade
+        for(var i = 0; i < this.upgrades.length; i++) {
+            this.upgrades[i].id = i;
+        }
     }
 
     this.update = function update() {

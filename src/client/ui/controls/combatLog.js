@@ -26,6 +26,8 @@ declare('CombatLog', function() {
         component.construct(this);
 
         this.id = "CombatLog";
+
+        this.maxEventCount = 1000;
     };
 
     // ---------------------------------------------------------------------------

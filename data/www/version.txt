@@ -1,5 +1,5 @@
 {
-    "version": 0.5,
-    "changeTitle": "Endless Improvements by feildmaster",
-    "changeDetails": "<div> Integrated some of Endless Improvements functionality into the core game</div>"
+    "version": 0.71,
+    "changeTitle": "Fixed boss kill breaking the update cycle",
+    "changeDetails": "<div> * Fixed a critical issue where the game would break after deafeating a boss</div><div> * Upgrades properly work and update on game reset</div><div> * the upgrades window now opens next to the mercenaries window instead of on top of it</div><div> * The level up window now stays open if there are more points to spend making it faster to spend a lot</div><div> * Better display for player, monster and xp bar</div>"
 }

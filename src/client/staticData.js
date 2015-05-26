@@ -10,6 +10,8 @@ declare('StaticData', function () {
 
         this.id = "StaticData";
 
+        this.progressBarWidth = 300;
+
         this.versionFile = "version.txt";
         this.versionInfoFile = "versionInfo.txt";
 

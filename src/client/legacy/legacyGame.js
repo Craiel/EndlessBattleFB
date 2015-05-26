@@ -23,18 +23,6 @@ var mouseY = 0;
     }
 })();
 
-// Transforms a number so it contains commas
-Number.prototype.formatMoney = function(c, d, t){
-var n = this, 
-    c = isNaN(c = Math.abs(c)) ? 2 : c, 
-    d = d == undefined ? "." : d, 
-    t = t == undefined ? "," : t, ab
-    s = n < 0 ? "-" : "", 
-    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
-    j = (j = i.length) > 3 ? j % 3 : 0;
-   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
- };
-
 /* ========== ========== ========== ========== ==========  ========== ========== ========== ========== ==========  /
 /                                                      PLAYER                                                       
 /  ========== ========== ========== ========== ==========  ========== ========== ========== ========== ========== */
@@ -322,16 +310,6 @@ UpgradeRequirementType.ASSASSIN = "ASSASSIN";
 UpgradeRequirementType.WARLOCK = "WARLOCK";
 UpgradeRequirementType.LEVEL = "LEVEL";
 UpgradeRequirementType.ITEMS_LOOTED = "ITEMS_LOOTED";
-
-function upgradeButtonMouseOverFactory(obj, id) {
-    return function () { upgradeButtonMouseOver(obj, id); }
-}
-function upgradeButtonMouseDownFactory(id) {
-    return function () { upgradeButtonMouseDown(id); }
-}
-function upgradeButtonMouseOutFactory(id) {
-    return function () { upgradeButtonMouseOut(id); }
-}
 
 function upgradeButtonMouseOver(upgradeId) {
     var upgrade = legacyGame.upgradeManager.upgrades[upgradeId];
@@ -1034,7 +1012,6 @@ function statUpgradeButtonHover(obj, index) {
 }
 function statUpgradeButtonClick(obj, index) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 46px';
-    $("#statUpgradesWindow").hide();
 
     // Upgrade a player's stat depending on which button was clicked
     var upgrade = legacyGame.statUpgradesManager.upgrades[0][index - 1];
@@ -1058,6 +1035,12 @@ function statUpgradeButtonClick(obj, index) {
     // Alter the player's skill points
     legacyGame.player.skillPoints--;
     legacyGame.player.skillPointsSpent++;
+
+    $("#statUpgradesWindow").hide();
+    if(legacyGame.player.skillPoints > 0) {
+        // Re-open the upgrade window if there are still points to spend
+        legacyGame.displayLevelUpWindow();
+    }
 }
 function statUpgradeButtonReset(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 0';
@@ -1095,6 +1078,11 @@ function rendUpgradeButtonClick(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 46px';
     $("#abilityUpgradesWindow").hide();
     legacyGame.player.increaseAbilityPower(AbilityName.REND);
+
+    if(legacyGame.player.skillPoints > 0) {
+        // Re-open the upgrade window if there are still points to spend
+        legacyGame.displayLevelUpWindow();
+    }
 }
 function rendUpgradeButtonReset(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 0';
@@ -1136,6 +1124,11 @@ function rejuvenatingStrikesUpgradeButtonClick(obj) {
 function rejuvenatingStrikesUpgradeButtonReset(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 0';
     $("#abilityUpgradeTooltip").hide();
+
+    if(legacyGame.player.skillPoints > 0) {
+        // Re-open the upgrade window if there are still points to spend
+        legacyGame.displayLevelUpWindow();
+    }
 }
 
 function iceBladeUpgradeButtonHover(obj) {
@@ -1169,6 +1162,11 @@ function iceBladeUpgradeButtonClick(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 46px';
     $("#abilityUpgradesWindow").hide();
     legacyGame.player.increaseAbilityPower(AbilityName.ICE_BLADE);
+
+    if(legacyGame.player.skillPoints > 0) {
+        // Re-open the upgrade window if there are still points to spend
+        legacyGame.displayLevelUpWindow();
+    }
 }
 function iceBladeUpgradeButtonReset(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 0';
@@ -1208,6 +1206,11 @@ function fireBladeUpgradeButtonClick(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 46px';
     $("#abilityUpgradesWindow").hide();
     legacyGame.player.increaseAbilityPower(AbilityName.FIRE_BLADE);
+
+    if(legacyGame.player.skillPoints > 0) {
+        // Re-open the upgrade window if there are still points to spend
+        legacyGame.displayLevelUpWindow();
+    }
 }
 function fireBladeUpgradeButtonReset(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 0';
