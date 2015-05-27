@@ -82,16 +82,18 @@ function Player() {
         return (this.getDamageBonus() + 100) / 100;
     }
     this.getMinDamage = function getMinDamage() {
-        var baseValue = this.getStrength() + this.baseStats.minDamage + this.baseItemBonuses.minDamage;
         var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
+        var baseValue = 1 + this.getStrength() + this.baseStats.minDamage + this.baseItemBonuses.minDamage;
 
         return Math.floor(baseValue + multiplier);
+        return Math.floor(baseValue * multiplier);
     }
     this.getMaxDamage = function getMaxDamage() {
-        var baseValue = this.getStrength() + this.baseStats.maxDamage + this.baseItemBonuses.maxDamage;
+        var baseValue = 1 + this.getStrength() + this.baseStats.maxDamage + this.baseItemBonuses.maxDamage;
         var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
 
         return Math.floor(baseValue + multiplier);
+        return Math.floor(baseValue * multiplier);
     }
     this.getDamageBonus = function getDamageBonus() {
         return this.getStrength() + ((this.baseStats.damageBonus + this.chosenLevelUpBonuses.damageBonus + this.baseItemBonuses.damageBonus + (legacyGame.mercenaryManager.getMageDamagePercentBonus() * legacyGame.mercenaryManager.magesOwned)) * legacyGame.getPowerShardBonus());
