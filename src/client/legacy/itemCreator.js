@@ -19,9 +19,9 @@ function ItemCreator() {
 
         if (rand < 0.20) {
             rand = Math.random();
-            if (rand < 0.00001 * rarityMultiplier) { return ItemRarity.LEGENDARY; }
-            else if (rand < 0.0001 * rarityMultiplier) { return ItemRarity.EPIC; }
-            else if (rand < 0.001 * rarityMultiplier) { return ItemRarity.RARE; }
+            if (rand < 0.00005 * rarityMultiplier) { return ItemRarity.LEGENDARY; }
+            else if (rand < 0.0003 * rarityMultiplier) { return ItemRarity.EPIC; }
+            else if (rand < 0.002 * rarityMultiplier) { return ItemRarity.RARE; }
             else if (rand < 0.01 * rarityMultiplier) { return ItemRarity.UNCOMMON; }
             else { return ItemRarity.COMMON; }
         }
@@ -131,21 +131,21 @@ function ItemCreator() {
             switch (randBonus) {
                 case 0:
                     if (itemBonuses.strength == 0) {
-                        itemBonuses.strength = statGenerator.getRandomStrengthBonus(level);
+                        itemBonuses.strength = statGenerator.getRandomPrimaryStatBonus(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomStrengthName(); }
                         amount--;
                     }
                     break;
                 case 1:
                     if (itemBonuses.agility == 0) {
-                        itemBonuses.agility = statGenerator.getRandomAgilityBonus(level);
+                        itemBonuses.agility = statGenerator.getRandomPrimaryStatBonus(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomAgilityName(); }
                         amount--;
                     }
                     break;
                 case 2:
                     if (itemBonuses.stamina == 0) {
-                        itemBonuses.stamina = statGenerator.getRandomStaminaBonus(level);
+                        itemBonuses.stamina = statGenerator.getRandomPrimaryStatBonus(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomStaminaName(); }
                         amount--;
                     }

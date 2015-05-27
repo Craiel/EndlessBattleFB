@@ -32,8 +32,18 @@ function StatUpgradesManager() {
             }
         }
 
+        var value = legacyGame.statGenerator.getRandomPrimaryStatBonus(level);
+        upgradeTypes.push(StatUpgradeType.STRENGTH);
+        upgradeAmounts.push(value);
+
+        upgradeTypes.push(StatUpgradeType.AGILITY);
+        upgradeAmounts.push(value);
+
+        upgradeTypes.push(StatUpgradeType.STAMINA);
+        upgradeAmounts.push(value);
+
         // Asign the types and the amounts for all the Ids
-        for (var x = 0; x < upgradeIds.length; x++) {
+        /*for (var x = 0; x < upgradeIds.length; x++) {
             switch (upgradeIds[x]) {
                 case 0:
                     upgradeTypes.push(StatUpgradeType.DAMAGE);
@@ -76,7 +86,7 @@ function StatUpgradesManager() {
                     upgradeAmounts.push(legacyGame.statGenerator.getRandomExperienceGainBonus(level));
                     break;
             }
-        }
+        }*/
 
         // Add this new set of upgrades
         this.addNewUpgrades(upgradeTypes[0], upgradeAmounts[0], upgradeTypes[1], upgradeAmounts[1], upgradeTypes[2], upgradeAmounts[2]);

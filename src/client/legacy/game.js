@@ -318,18 +318,29 @@ function Game() {
         $("#battleLevelText").animate({ top:'-=50px', opacity:'0' }, 1000);
     }
 
+    this.displaySkillUpWindow = function() {
+        if(this.player.abilityPoints > 0) {
+            $("#abilityUpgradesWindow").show();
+        }
+    }
+
     // Triggered when the Level Up button is clicked
     this.displayLevelUpWindow = function displayLevelUpWindow() {
 
         // Display the stat upgrade window or the ability upgrade window depending on the level
         // If the number is divisible by 5 then the player can choose an ability
-        if ((this.player.skillPointsSpent + 2) % 5 == 0) {
+        /*if ((this.player.skillPointsSpent + 2) % 5 == 0) {
             $("#abilityUpgradesWindow").show();
         }
         // Else the player can upgrade a stat
-        else {
+        else {*/
             // Set the upgrade names on the window's buttons
             var upgrades = this.statUpgradesManager.upgrades[0];
+            if(upgrades === undefined && this.player.skillPoints > 0) {
+                this.player.skillPoints--;
+                return;
+            }
+
             $("#statUpgradesWindow").show();
 
             switch (upgrades[0].type) {
@@ -370,7 +381,7 @@ function Game() {
                 case StatUpgradeType.GOLD_GAIN:         document.getElementById("statUpgradeName3").innerHTML = "+" + upgrades[2].amount + "% Gold Gain"; break;
                 case StatUpgradeType.EXPERIENCE_GAIN:   document.getElementById("statUpgradeName3").innerHTML = "+" + upgrades[2].amount + "% Experience Gain"; break;
             }
-        }
+        //}
     }
 
     this.calculatePowerShardReward = function calculatePowerShardReward() {

@@ -28,29 +28,7 @@ function StatGenerator() {
     }
 
     // Random strength bonus
-    this.getRandomStrengthBonus = function getRandomStrengthBonus(level) {
-        rand = Math.random() * 3;
-        rand = Math.floor(rand);
-        switch (rand) {
-            case 0: return Math.ceil(level * Math.pow(1.001, level) * 0.75); break;
-            case 1: return Math.ceil((level * Math.pow(1.001, level) * 0.75) + (level / 10) + 1); break;
-            case 2: return Math.ceil((level * Math.pow(1.001, level) * 0.75) + (level / 5) + 1); break;
-        }
-    }
-
-    // Random agility bonus
-    this.getRandomAgilityBonus = function getRandomAgilityBonus(level) {
-        rand = Math.random() * 3;
-        rand = Math.floor(rand);
-        switch (rand) {
-            case 0: return Math.ceil(level * Math.pow(1.001, level) * 0.75); break;
-            case 1: return Math.ceil((level * Math.pow(1.001, level) * 0.75) + (level / 10) + 1); break;
-            case 2: return Math.ceil((level * Math.pow(1.001, level) * 0.75) + (level / 5) + 1); break;
-        }
-    }
-
-    // Random stamina bonus
-    this.getRandomStaminaBonus = function getRandomStaminaBonus(level) {
+    this.getRandomPrimaryStatBonus = function(level) {
         rand = Math.random() * 3;
         rand = Math.floor(rand);
         switch (rand) {

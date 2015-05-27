@@ -643,6 +643,19 @@ function levelUpButtonClick() {
     legacyGame.displayLevelUpWindow();
 }
 
+// Skill Up Button
+function skillUpButtonHover() {
+    $("#skillUpButton").css('background', 'url("includes/images/stoneButton1.png") 0 75px');
+}
+function skillUpButtonReset() {
+    $("#skillUpButton").css("background", 'url("includes/images/stoneButton1.png") 0 0px');
+}
+function skillUpButtonClick() {
+    $("#skillUpButton").css("background", 'url("includes/images/stoneButton1.png") 0 50px');
+
+    legacyGame.displaySkillUpWindow();
+}
+
 /* ========== ========== ========== ========== ==========  ========== ========== ========== ========== ==========  /
 /                                                  WINDOW BUTTONS                                                       
 /  ========== ========== ========== ========== ==========  ========== ========== ========== ========== ========== */
@@ -1079,9 +1092,9 @@ function rendUpgradeButtonClick(obj) {
     $("#abilityUpgradesWindow").hide();
     legacyGame.player.increaseAbilityPower(AbilityName.REND);
 
-    if(legacyGame.player.skillPoints > 0) {
+    if(legacyGame.player.abilityPoints > 0) {
         // Re-open the upgrade window if there are still points to spend
-        legacyGame.displayLevelUpWindow();
+        legacyGame.displaySkillUpWindow();
     }
 }
 function rendUpgradeButtonReset(obj) {
@@ -1125,9 +1138,9 @@ function rejuvenatingStrikesUpgradeButtonReset(obj) {
     obj.style.background = 'url("includes/images/buyButtonBase.png") 0 0';
     $("#abilityUpgradeTooltip").hide();
 
-    if(legacyGame.player.skillPoints > 0) {
+    if(legacyGame.player.abilityPoints > 0) {
         // Re-open the upgrade window if there are still points to spend
-        legacyGame.displayLevelUpWindow();
+        legacyGame.displaySkillUpWindow();
     }
 }
 
@@ -1163,9 +1176,9 @@ function iceBladeUpgradeButtonClick(obj) {
     $("#abilityUpgradesWindow").hide();
     legacyGame.player.increaseAbilityPower(AbilityName.ICE_BLADE);
 
-    if(legacyGame.player.skillPoints > 0) {
+    if(legacyGame.player.abilityPoints > 0) {
         // Re-open the upgrade window if there are still points to spend
-        legacyGame.displayLevelUpWindow();
+        legacyGame.displaySkillUpWindow();
     }
 }
 function iceBladeUpgradeButtonReset(obj) {
@@ -1207,9 +1220,9 @@ function fireBladeUpgradeButtonClick(obj) {
     $("#abilityUpgradesWindow").hide();
     legacyGame.player.increaseAbilityPower(AbilityName.FIRE_BLADE);
 
-    if(legacyGame.player.skillPoints > 0) {
+    if(legacyGame.player.abilityPoints > 0) {
         // Re-open the upgrade window if there are still points to spend
-        legacyGame.displayLevelUpWindow();
+        legacyGame.displaySkillUpWindow();
     }
 }
 function fireBladeUpgradeButtonReset(obj) {

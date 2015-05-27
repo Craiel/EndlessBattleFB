@@ -429,6 +429,12 @@ function FrozenBattle() {
         }
     }
 
+    this.getWorstCaseSalePrize = function(level) {
+        var baseValue = Math.pow(level / 2, 3);
+        var multiplier = 1.8;
+        return baseValue * multiplier;
+    };
+
     this.updateSalePrice = function(item) {
         baseSaleValue = Math.pow(item.level / 2, 3);
         item.sellValue = 0;
@@ -683,7 +689,7 @@ function FrozenBattle() {
         this.addStat('Stat cost', cost);
         
         return true;
-    }
+    };
     
     this.getGps = function() {
         var gps = 0;
@@ -693,17 +699,16 @@ function FrozenBattle() {
         }
         
         return gps;
-    }
+    };
     
     this.getGambleCost = function() {
-        var cost = Math.pow(1.3, legacyGame.player.level) * 340;
-        return cost;
-    }
+        return 5000 + (10 * this.getWorstCaseSalePrize(legacyGame.player.level));
+    };
     
     this.getStatIncreaseCost = function() {
         var cost = Math.pow(1.15, this.settings.statsBought) * 240;
         return cost;
-    }
+    };
 
     // ---------------------------------------------------------------------------
     // User interface

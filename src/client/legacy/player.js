@@ -60,6 +60,8 @@ function Player() {
     // Abilities
     this.skillPointsSpent = 0;
     this.skillPoints = 0;
+    this.abilityPoints = 0;
+    this.abilityPointsSpent = 0;
     this.abilities = new Abilities();
 
     // Buffs/Debuffs
@@ -85,14 +87,12 @@ function Player() {
         var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
         var baseValue = 1 + this.getStrength() + this.baseStats.minDamage + this.baseItemBonuses.minDamage;
 
-        return Math.floor(baseValue + multiplier);
         return Math.floor(baseValue * multiplier);
     }
     this.getMaxDamage = function getMaxDamage() {
         var baseValue = 1 + this.getStrength() + this.baseStats.maxDamage + this.baseItemBonuses.maxDamage;
         var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
 
-        return Math.floor(baseValue + multiplier);
         return Math.floor(baseValue * multiplier);
     }
     this.getDamageBonus = function getDamageBonus() {
@@ -175,8 +175,8 @@ function Player() {
         }
 
         // Alter the player's skill points
-        this.skillPoints--;
-        this.skillPointsSpent++;
+        this.abilityPoints--;
+        this.abilityPointsSpent++;
     }
 
     // Use all the abilities the player has
@@ -250,12 +250,14 @@ function Player() {
             this.experience -= this.experienceRequired;
             this.level++;
             this.skillPoints++;
+            if(this.level % 5 == 0) {
+                this.abilityPoints++;
+            }
+
             this.experienceRequired = legacyGame.player.getExperienceRequired();
 
-            // If this number is not divisible by 5 then add a random stat upgrade
-            if (this.level % 5 != 0) {
-                legacyGame.statUpgradesManager.addRandomUpgrades(this.level);
-            }
+            // Add a set of upgrades
+            legacyGame.statUpgradesManager.addRandomUpgrades(this.level);
 
             // Add stats to the player for leveling up
             this.levelUpBonuses.health += Math.floor(this.baseLevelUpBonuses.health * (Math.pow(1.01, this.level - 1)));
@@ -491,6 +493,8 @@ function Player() {
 
         localStorage.playerSkillPointsSpent = this.skillPointsSpent;
         localStorage.playerSkillPoints = this.skillPoints;
+        localStorage.playerAbilityPointsSpent = this.abilityPointsSpent;
+        localStorage.playerAbilityPoints = this.abilityPoints;
         this.abilities.save();
 
         localStorage.playerAlive = this.alive;
@@ -552,6 +556,14 @@ function Player() {
 
             this.skillPointsSpent = parseInt(localStorage.playerSkillPointsSpent);
             this.skillPoints = parseInt(localStorage.playerSkillPoints);
+            this.abilityPointsSpent = parseInt(localStorage.playerAbilityPointsSpent);
+            this.abilityPoints = parseInt(localStorage.playerAbilityPoints);
+            if(isNaN(this.abilityPoints)) {
+                this.abilityPoints = 0;
+            }
+            if(isNaN(this.abilityPointsSpent)) {
+                this.abilityPointsSpent = 0;
+            }
             this.abilities.load();
             this.changeAttack(localStorage.attackType);
 

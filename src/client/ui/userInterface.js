@@ -270,11 +270,6 @@ declare('UserInterface', function () {
             this.updateEquipment(gameTime);
         }
 
-        // Show the Level Up button if there are still skill points remaining
-        if (this.skillPoints > 0) {
-            $("#levelUpButton").show();
-        }
-
         this.updateGoldDisplay(gameTime);
         this.updatePlayerAndMonster(gameTime);
         this.updateBattleDisplay(gameTime);
@@ -303,6 +298,13 @@ declare('UserInterface', function () {
             $('#levelUpButton').show();
         } else {
             $('#levelUpButton').hide();
+        }
+
+        if(legacyGame.player.abilityPoints > 0) {
+            $('#skillUpButton').text("Skill Up ({0})".format(legacyGame.player.abilityPoints));
+            $('#skillUpButton').show();
+        } else {
+            $('#skillUpButton').hide();
         }
 
         if (legacyGame.inBattle == false && legacyGame.player.alive) {

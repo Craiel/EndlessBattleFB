@@ -1,5 +1,5 @@
 {
-    "version": 0.8,
+    "version": 0.82,
     "changeTitle": "Balance update",
-    "changeDetails": "<div> * Re-balanced crit and crit damage calculation to provide a little more of a challenge and rely more on the actual items</div><div> * Monster health, XP and Auto Attack now scale a little more the higher you get to make</div>"
+    "changeDetails": "<div> * Min / Max damage fixed when no weapon is equipped</div><div> * % Damage bonus now applies again for min / max damage</div><div> * Increased drop rate for epic and legendary items slightly</div><div> * Gambling prices greatly reduced, they are now more similar to a really expensive item of the current level</div><div> * Skills and level up bonuses are now separate windows and buttons for easier access</div><div> * Level up will now just pick from the 3 main stats and maintain order for faster level up spending</div>"
 }

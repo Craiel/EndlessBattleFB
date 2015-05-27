@@ -530,6 +530,14 @@ body:hover {
 }
 
 /* --------------------------------------------------  -------------------------------------------------- */
+#skillUpButton {
+    bottom: 55px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    margin: auto;
+}
+
 #levelUpButton {
     bottom: 25px; 
     left: 0px; 
