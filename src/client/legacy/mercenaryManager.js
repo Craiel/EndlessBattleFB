@@ -19,20 +19,6 @@ function mercenaryManager() {
     this.assassinGps = this.baseAssassinGps;
     this.warlockGps = this.baseWarlockGps;
 
-    // The base effect levels of each mercenaries special effects
-    this.baseClericHp5PercentBonus = 5;
-    this.baseCommanderHealthPercentBonus = 5;
-    this.baseMageDamagePercentBonus = 5;
-    this.baseAssassinEvasionPercentBonus = 5;
-    this.baseWarlockCritDamageBonus = 5;
-
-    // The amount an upgrade to a mercenary's special effect will do
-    this.clericHp5PercentUpgradeValue = 2.5;
-    this.commanderHealthPercentUpgradeValue = 2.5;
-    this.mageDamagePercentUpgradeValue = 2.5;
-    this.assassinEvasionPercentUpgradeValue = 2.5;
-    this.warlockCritDamageUpgradeValue = 2.5;
-
     // Base prices for each mercenary
     this.baseFootmanPrice = 10;
     this.baseClericPrice = 200;
@@ -89,9 +75,7 @@ function mercenaryManager() {
     this.getClericHp5PercentBonus = function getClericHp5PercentBonus() {
         return this.baseClericHp5PercentBonus + (this.clericHp5PercentUpgradeValue * legacyGame.upgradeManager.clericSpecialUpgradesPurchased);
     }
-    this.getCommanderHealthPercentBonus = function getCommanderHealthPercentBonus() {
-        return this.baseCommanderHealthPercentBonus + (this.commanderHealthPercentUpgradeValue * legacyGame.upgradeManager.commanderSpecialUpgradesPurchased);
-    }
+
     this.getMageDamagePercentBonus = function getMageDamagePercentBonus() {
         return this.baseMageDamagePercentBonus + (this.mageDamagePercentUpgradeValue * legacyGame.upgradeManager.mageSpecialUpgradesPurchased);
     }
@@ -125,30 +109,6 @@ function mercenaryManager() {
         }
     }
 
-    // Get the amount of Gps a mercenary will grant
-    this.getMercenariesGps = function getMercenariesGps(type) {
-        switch (type) {
-            case MercenaryType.FOOTMAN:
-                return (this.getMercenaryBaseGps(type) * ((legacyGame.player.getGoldGain() / 100) + 1) * ((100 - this.gpsReduction) / 100)) * legacyGame.player.buffs.getGoldMultiplier();
-                break;
-            case MercenaryType.CLERIC:
-                return (this.getMercenaryBaseGps(type) * ((legacyGame.player.getGoldGain() / 100) + 1) * ((100 - this.gpsReduction) / 100)) * legacyGame.player.buffs.getGoldMultiplier();
-                break;
-            case MercenaryType.COMMANDER:
-                return (this.getMercenaryBaseGps(type) * ((legacyGame.player.getGoldGain() / 100) + 1) * ((100 - this.gpsReduction) / 100)) * legacyGame.player.buffs.getGoldMultiplier();
-                break;
-            case MercenaryType.MAGE:
-                return (this.getMercenaryBaseGps(type) * ((legacyGame.player.getGoldGain() / 100) + 1) * ((100 - this.gpsReduction) / 100)) * legacyGame.player.buffs.getGoldMultiplier();
-                break;
-            case MercenaryType.ASSASSIN:
-                return (this.getMercenaryBaseGps(type) * ((legacyGame.player.getGoldGain() / 100) + 1) * ((100 - this.gpsReduction) / 100)) * legacyGame.player.buffs.getGoldMultiplier();
-                break;
-            case MercenaryType.WARLOCK:
-                return (this.getMercenaryBaseGps(type) * ((legacyGame.player.getGoldGain() / 100) + 1) * ((100 - this.gpsReduction) / 100)) * legacyGame.player.buffs.getGoldMultiplier();
-                break;
-        }
-    }
-
     // Get the Gps
     this.getGps = function getGps() {
         var gps = 0;
@@ -160,7 +120,7 @@ function mercenaryManager() {
             gold = 0;
 
             // Get the gold gained from each mercenary
-            gold += this.getMercenariesGps(this.mercenaries[x].type);
+            gold += game.systems.getMercenariesGps(this.mercenaries[x].type);
 
             // Add this mercenary's gold to the gps
             gps += gold;
@@ -189,7 +149,7 @@ function mercenaryManager() {
             }
 
             for (var x = 0; x < this.mercenaries.length; x++) {
-                var amount = ((this.getMercenariesGps(this.mercenaries[x].type) / 1000) * gpsUpdateDelay) * gainTimes;
+                var amount = ((game.systems.getMercenariesGps(this.mercenaries[x].type) / 1000) * gpsUpdateDelay) * gainTimes;
                 game.gainGold(amount, false, true);
                 legacyGame.stats.goldFromMercenaries += legacyGame.player.lastGoldGained;
             }

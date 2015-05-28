@@ -10,7 +10,7 @@ function Abilities() {
     }
     this.rendDuration = 5;
     this.getRendDamage = function getRendDamage(levelBonus) {
-        return Math.ceil((legacyGame.player.getAverageDamage() / 17) + (legacyGame.player.level / 1.5)) * (this.getRendLevel() + levelBonus);
+        return Math.ceil((game.systems.getAverageDamage() / 17) + (legacyGame.player.level / 1.5)) * (this.getRendLevel() + levelBonus);
     }
 
     this.baseRejuvenatingStrikesLevel = 0;
@@ -23,7 +23,7 @@ function Abilities() {
         return level;
     }
     this.getRejuvenatingStrikesHealAmount = function getRejuvenatingStrikesHealAmount(levelBonus) {
-        return Math.ceil((legacyGame.player.getAverageDamage() / 54) + (legacyGame.player.level / 2)) * (this.getRejuvenatingStrikesLevel() + levelBonus);
+        return Math.ceil((game.systems.getAverageDamage() / 54) + (legacyGame.player.level / 2)) * (this.getRejuvenatingStrikesLevel() + levelBonus);
     }
 
     this.baseIceBladeLevel = 0;
@@ -37,7 +37,7 @@ function Abilities() {
     }
     this.iceBladeChillDuration = 5;
     this.getIceBladeDamage = function getIceBladeDamage(levelBonus) {
-        return Math.ceil((legacyGame.player.getAverageDamage() / 12) + legacyGame.player.level) * (this.getIceBladeLevel() + levelBonus);
+        return Math.ceil((game.systems.getAverageDamage() / 12) + legacyGame.player.level) * (this.getIceBladeLevel() + levelBonus);
     }
 
     this.baseFireBladeLevel = 0;
@@ -51,10 +51,10 @@ function Abilities() {
     }
     this.fireBladeBurnDuration = 5;
     this.getFireBladeDamage = function getFireBladeDamage(levelBonus) {
-        return Math.ceil((legacyGame.player.getAverageDamage() / 12) + legacyGame.player.level) * (this.getFireBladeLevel() + levelBonus);
+        return Math.ceil((game.systems.getAverageDamage() / 12) + legacyGame.player.level) * (this.getFireBladeLevel() + levelBonus);
     }
     this.getFireBladeBurnDamage = function getFireBladeBurnDamage(levelBonus) {
-        return Math.ceil((legacyGame.player.getAverageDamage() / 9) + legacyGame.player.level) * (this.getFireBladeLevel() + levelBonus);
+        return Math.ceil((game.systems.getAverageDamage() / 9) + legacyGame.player.level) * (this.getFireBladeLevel() + levelBonus);
     }
 
     this.save = function save() {

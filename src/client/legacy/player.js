@@ -69,59 +69,20 @@ function Player() {
     this.debuffs = new DebuffManager();
 
     // Stat calculation functions
-    this.getMaxHealth = function getMaxHealth() {
-        var baseValue = this.baseStats.health + this.levelUpBonuses.health + this.baseItemBonuses.health;
-        baseValue += this.getStamina() * 5;
-        var multiplier = 1 + ((legacyGame.mercenaryManager.getCommanderHealthPercentBonus() * legacyGame.mercenaryManager.commandersOwned) / 100);
-        multiplier += legacyGame.getPowerShardBonus();
 
-        return Math.floor(baseValue * multiplier);
-    }
-    this.getHp5 = function getHp5() {
-        return Math.floor(this.getStamina() + (((this.baseStats.hp5 + this.levelUpBonuses.hp5 + this.chosenLevelUpBonuses.hp5 + this.baseItemBonuses.hp5) * ((legacyGame.mercenaryManager.getClericHp5PercentBonus() * legacyGame.mercenaryManager.clericsOwned) / 100 + 1)) * legacyGame.getPowerShardBonus()));
-    }
-    this.getDamageBonusMultiplier = function() {
-        return (this.getDamageBonus() + 100) / 100;
-    }
-    this.getMinDamage = function getMinDamage() {
-        var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
-        var baseValue = 1 + this.getStrength() + this.baseStats.minDamage + this.baseItemBonuses.minDamage;
 
-        return Math.floor(baseValue * multiplier);
-    }
-    this.getMaxDamage = function getMaxDamage() {
-        var baseValue = 1 + this.getStrength() + this.baseStats.maxDamage + this.baseItemBonuses.maxDamage;
-        var multiplier = this.getDamageBonusMultiplier() + this.buffs.getDamageMultiplier() + legacyGame.getPowerShardBonus();
 
-        return Math.floor(baseValue * multiplier);
-    }
-    this.getDamageBonus = function getDamageBonus() {
-        return this.getStrength() + ((this.baseStats.damageBonus + this.chosenLevelUpBonuses.damageBonus + this.baseItemBonuses.damageBonus + (legacyGame.mercenaryManager.getMageDamagePercentBonus() * legacyGame.mercenaryManager.magesOwned)) * legacyGame.getPowerShardBonus());
-    }
-    this.getAverageDamage = function getAverageDamage() {
-        var average = this.getMaxDamage() - this.getMinDamage();
-        average += this.getMinDamage();
-        return average;
-    }
-    this.getArmour = function getArmour() {
-        return Math.floor(((this.baseStats.armour + this.chosenLevelUpBonuses.armour + this.baseItemBonuses.armour) * ((this.getStamina() / 100) + 1)) * legacyGame.getPowerShardBonus());
-    }
-    this.getEvasion = function getEvasion() {
-        return Math.floor(((this.baseStats.evasion + this.chosenLevelUpBonuses.evasion + this.baseItemBonuses.evasion) * (((this.getAgility() + (legacyGame.mercenaryManager.getAssassinEvasionPercentBonus() * legacyGame.mercenaryManager.assassinsOwned)) / 100) + 1)) * legacyGame.getPowerShardBonus());
-    }
-    this.getStrength = function getStrength() {
-        return Math.floor((this.baseStats.strength + this.chosenLevelUpBonuses.strength + this.baseItemBonuses.strength) * legacyGame.getPowerShardBonus());
-    }
-    this.getStamina = function getStamina() {
-        return Math.floor((this.baseStats.stamina + this.chosenLevelUpBonuses.stamina + this.baseItemBonuses.stamina) * legacyGame.getPowerShardBonus());
-    }
-    this.getAgility = function getAgility() {
-        return Math.floor((this.baseStats.agility + this.chosenLevelUpBonuses.agility + this.baseItemBonuses.agility) * legacyGame.getPowerShardBonus());
-    }
+
+
+
+
+
+
+
     this.getCritChance = function getCritChance() {
         var multiplier = 1;
         var baseValue = this.baseStats.critChance + this.chosenLevelUpBonuses.critChance + this.baseItemBonuses.critChance;
-        baseValue += this.getAgility() / 100;
+        baseValue += game.systems.getAgility() / 100;
         baseValue *= multiplier;
 
         var coefficient = 75 + legacyGame.player.level * 0.1;
@@ -133,16 +94,7 @@ function Player() {
         return value;
     }
     this.getCritDamage = function getCritDamage() {
-        return ((this.baseStats.critDamage + this.chosenLevelUpBonuses.critDamage + this.baseItemBonuses.critDamage) + (legacyGame.mercenaryManager.getWarlockCritDamageBonus() * legacyGame.mercenaryManager.warlocksOwned)) * legacyGame.getPowerShardBonus();
-    }
-    this.getItemRarity = function getItemRarity() {
-        return (this.baseStats.itemRarity + this.chosenLevelUpBonuses.itemRarity + this.baseItemBonuses.itemRarity) * legacyGame.getPowerShardBonus();
-    }
-    this.getGoldGain = function getGoldGain() {
-        return (this.baseStats.goldGain + this.chosenLevelUpBonuses.goldGain + this.baseItemBonuses.goldGain) * legacyGame.getPowerShardBonus();
-    }
-    this.getExperienceGain = function getExperienceGain() {
-        return (this.baseStats.experienceGain + this.chosenLevelUpBonuses.experienceGain + this.baseItemBonuses.experienceGain) * legacyGame.getPowerShardBonus();
+        return ((this.baseStats.critDamage + this.chosenLevelUpBonuses.critDamage + this.baseItemBonuses.critDamage) + (legacyGame.mercenaryManager.getWarlockCritDamageBonus() * legacyGame.mercenaryManager.warlocksOwned)) * game.systems.getOverallMultiplier();
     }
 
     // Get the power of a certain special effect
@@ -301,7 +253,7 @@ function Player() {
     // Calculate the amount of reduction granted by armour
     this.calculateDamageReduction = function calculateDamageReduction() {
         // Calculate the reduction
-        var reduction = (this.getArmour() / Math.pow(1.055, legacyGame.player.level)) * 90
+        var reduction = (game.systems.getArmor() / Math.pow(1.055, legacyGame.player.level)) * 90
 
         // Cap the reduction at 90%
         if (reduction >= 90) {
@@ -314,7 +266,7 @@ function Player() {
     // Calculate the chance the player has of dodging an attack
     this.calculateEvasionChance = function calculateEvasionChance() {
         // Calculate the chance
-        var chance = (this.getEvasion() / Math.pow(1.052, legacyGame.player.level)) * 75;
+        var chance = (game.systems.getEvasion() / Math.pow(1.052, legacyGame.player.level)) * 75;
 
         // Cap the dodge at 75%
         if (chance >= 75) {
@@ -327,17 +279,15 @@ function Player() {
     // Heal the player for a specified amount
     this.heal = function heal(amount) {
         this.health += amount;
-        if (this.health > this.getMaxHealth()) {
-            this.health = this.getMaxHealth();
+        if (this.health > game.systems.getMaxHealth()) {
+            this.health = game.systems.getMaxHealth();
         }
     }
 
     // Regenerate the players health depending on how much time has passed
     this.regenerateHealth = function regenerateHealth(ms) {
-        this.health += ((this.getHp5() / 5) * (ms / 1000));
-        if (this.health >= this.getMaxHealth()) {
-            this.health = this.getMaxHealth();
-        }
+        var value = ((game.systems.getHp5() / 5) * (ms / 1000));
+        this.heal(value);
     }
 
     // Gain the stats from an item

@@ -865,7 +865,7 @@ function commanderBuyButtonMouseOver(obj) {
     $("#otherTooltipCooldown").html('');
     $("#otherTooltipLevel").html('');
     $("#otherTooltipDescription").html('GPS: ' + legacyGame.mercenaryManager.getMercenaryBaseGps(MercenaryType.COMMANDER).formatMoney() +
-        '<br>Commanders increase your health by ' + legacyGame.mercenaryManager.getCommanderHealthPercentBonus() + '%.');
+        '<br>Commanders increase your health by ' + game.systems.getCommanderHealthUpgradeMultiplier().formatMultiplier() + '.');
     $("#otherTooltip").show();
 
     // Set the item tooltip's location

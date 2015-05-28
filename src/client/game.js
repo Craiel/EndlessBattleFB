@@ -7,6 +7,7 @@ declare('Game', function() {
     include('SaveKeys');
     include('CoreUtils');
     include('EventAggregate');
+    include('GameSystems');
 
     Game.prototype = component.prototype();
     Game.prototype.$super = parent;
@@ -34,6 +35,8 @@ declare('Game', function() {
     Game.prototype.componentInit = Game.prototype.init;
     Game.prototype.init = function() {
         this.componentInit();
+
+        this.systems = gameSystems;
 
         this.reset();
         this.load();
@@ -146,8 +149,7 @@ declare('Game', function() {
 
         var multiplier = 1;
         if (includeBonuses) {
-            multiplier += legacyGame.player.getGoldGain() / 100;
-            multiplier += legacyGame.player.buffs.getGoldMultiplier();
+            multiplier += this.systems.getGoldMultiplier();
         }
 
         var gainedAmount = value * multiplier;
@@ -167,8 +169,7 @@ declare('Game', function() {
 
         var multiplier = 1;
         if(includeBonuses) {
-            multiplier += legacyGame.player.getExperienceGain() / 100;
-            multiplier += legacyGame.player.buffs.getExperienceMultiplier();
+            multiplier += game.systems.getExperienceMultiplier();
         }
 
         var gainedAmount = value * multiplier;

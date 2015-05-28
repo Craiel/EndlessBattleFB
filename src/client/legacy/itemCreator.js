@@ -1,7 +1,7 @@
 function ItemCreator() {
     this.getRandomItemRarity = function getRandomItemRarity(monsterRarity) {
         var rand = Math.random();
-        var rarityMultiplier = 1 + (legacyGame.player.getItemRarity() / 100);
+        var rarityMultiplier = 1 + game.systems.getRarityMultiplier();
 
         switch (monsterRarity) {
             case MonsterRarity.COMMON:

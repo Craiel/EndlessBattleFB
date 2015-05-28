@@ -60,10 +60,6 @@ function Game() {
         document.getElementById("version").innerHTML = "Version " + this.version;
     }
 
-    this.getPowerShardBonus = function() {
-        return (this.player.powerShards / 100) + 1;
-    };
-
     this.beginLoading = function beginLoading() {
         this.loading = true;
         this.loadingTextInterval = setInterval(function () {
@@ -182,8 +178,8 @@ function Game() {
                     // Try to generate an extra attack
                     if (Math.random() < swiftnessEffects[z].chance / 100) {
                         // Calculate the damage
-                        playerMinDamage = this.player.getMinDamage();
-                        playerMaxDamage = this.player.getMaxDamage();
+                        playerMinDamage = game.systems.getMinDamage();
+                        playerMaxDamage = game.systems.getMaxDamage();
                         playerDamage = playerMinDamage + (Math.random() * (playerMaxDamage - playerMinDamage));
 
                         // If the player is using power strike, multiply the damage
@@ -532,7 +528,7 @@ function Game() {
                 if (this.player.resurrectionTimeRemaining <= 0) {
                     // Make the player alive
                     this.player.resurrecting = false;
-                    this.player.health = this.player.getMaxHealth();
+                    this.player.health = game.systems.getMaxHealth();
                     this.player.alive = true;
 
                     // Display the other elements

@@ -256,7 +256,7 @@ function FrozenBattle() {
         this.lastAttackTime = time;
 
         // If we don't have enough health don't auto attack
-        var healthThreshold = legacyGame.player.getMaxHealth() / 2;
+        var healthThreshold = game.systems.getMaxHealth() / 2;
         if (legacyGame.player.health < healthThreshold) {
             return;
         }
@@ -551,7 +551,7 @@ function FrozenBattle() {
                     * (Math.pow(1.15, x)));
         }
 
-        legacyGame.player.health = legacyGame.player.getMaxHealth();
+        legacyGame.player.health = game.systems.getMaxHealth();
     }
 
     this.sortInventory = function() {
@@ -610,12 +610,12 @@ function FrozenBattle() {
     this.applyLevelResetBonus = function() {
         if (this.settings.applyLevelResetBonus) {
             legacyGame.player.baseStats.damageBonus += this.settings.levelsReset;
-            legacyGame.player.baseStats.goldGain += this.settings.levelsReset;
-            legacyGame.player.baseStats.experienceGain += this.settings.levelsReset;
+            //legacyGame.player.baseStats.goldGain += this.settings.levelsReset;
+            //legacyGame.player.baseStats.experienceGain += this.settings.levelsReset;
         } else {
             legacyGame.player.baseStats.damageBonus -= this.settings.levelsReset;
-            legacyGame.player.baseStats.goldGain -= this.settings.levelsReset;
-            legacyGame.player.baseStats.experienceGain -= this.settings.levelsReset;
+            //legacyGame.player.baseStats.goldGain -= this.settings.levelsReset;
+            //legacyGame.player.baseStats.experienceGain -= this.settings.levelsReset;
         }
     }
     
@@ -695,7 +695,7 @@ function FrozenBattle() {
         var gps = 0;
 
         for (var x = 0; x < legacyGame.mercenaryManager.mercenaries.length; x++) {
-            gps += legacyGame.mercenaryManager.getMercenariesGps(legacyGame.mercenaryManager.mercenaries[x].type);
+            gps += game.systems.getMercenariesGps(legacyGame.mercenaryManager.mercenaries[x].type);
         }
         
         return gps;
@@ -1065,7 +1065,7 @@ function FrozenBattle() {
         if (this.settings.formatHealthBarNumbers) {
             // Set player HP with formatting
             var playerHp = Math.floor(legacyGame.player.health).formatNumber();
-            var playerMaxHp = Math.floor(legacyGame.player.getMaxHealth()).formatNumber();
+            var playerMaxHp = Math.floor(game.systems.getMaxHealth()).formatNumber();
             $("#playerHealthBarText").text(playerHp + '/' + playerMaxHp);
 
             // Set monster HP with formatting

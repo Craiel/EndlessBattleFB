@@ -372,30 +372,30 @@ declare('UserInterface', function () {
     UserInterface.prototype.updatePlayerStats = function(gameTime) {
         // Update the player's stats
         $('#levelValue').text(legacyGame.player.level);
-        $('#healthValue').text(legacyGame.player.health.formatMoney(0) + ' / ' + legacyGame.player.getMaxHealth().formatMoney(0));
-        $('#hp5Value').text(legacyGame.player.getHp5().formatMoney(0));
-        $('#damageValue').text(legacyGame.player.getMinDamage().formatMoney(0) + ' - ' + legacyGame.player.getMaxDamage().formatMoney(0));
-        $('#damageBonusValue').text(legacyGame.player.getDamageBonus().formatMoney(2) + '%');
-        $('#armourValue').text(legacyGame.player.getArmour().formatMoney(0) + ' (' + legacyGame.player.calculateDamageReduction().formatMoney(2) + '%)');
-        $('#evasionValue').text(legacyGame.player.getEvasion().formatMoney(0) + ' (' + legacyGame.player.calculateEvasionChance().formatMoney(2) + '%)');
+        $('#healthValue').text(legacyGame.player.health.formatMoney(0) + ' / ' + game.systems.getMaxHealth().formatMoney(0));
+        $('#hp5Value').text(game.systems.getHp5().formatMoney(0));
+        $('#damageValue').text(game.systems.getMinDamage().formatMoney(0) + ' - ' + legacyGame.player.getMaxDamage().formatMoney(0));
+        $('#damageBonusValue').text(game.systems.getDamageBonusMultiplier().formatMultiplier());
+        $('#armourValue').text(game.systems.getArmor().formatMoney(0) + ' (' + legacyGame.player.calculateDamageReduction().formatMoney(2) + '%)');
+        $('#evasionValue').text(game.systems.getEvasion().formatMoney(0) + ' (' + legacyGame.player.calculateEvasionChance().formatMoney(2) + '%)');
 
-        $('#strengthValue').text(legacyGame.player.getStrength().formatMoney(0));
-        $('#staminaValue').text(legacyGame.player.getStamina().formatMoney(0));
-        $('#agilityValue').text(legacyGame.player.getAgility().formatMoney(0));
+        $('#strengthValue').text(game.systems.getStrength().formatMoney(0));
+        $('#staminaValue').text(game.systems.getStamina().formatMoney(0));
+        $('#agilityValue').text(game.systems.getAgility().formatMoney(0));
         $('#critChanceValue').text(legacyGame.player.getCritChance().formatMoney(2) + '%');
         $('#critDamageValue').text(legacyGame.player.getCritDamage().formatMoney(0) + '%');
 
-        $('#itemRarityValue').text(legacyGame.player.getItemRarity().formatMoney(2) + '%');
-        $('#goldGainValue').text(legacyGame.player.getGoldGain().formatMoney(2) + '%');
-        $('#experienceGainValue').text(legacyGame.player.getExperienceGain().formatMoney(2) + '%');
+        $('#itemRarityValue').text(game.systems.getRarityMultiplier().formatMultiplier());
+        $('#goldGainValue').text(game.systems.getGoldMultiplier().formatMultiplier());
+        $('#experienceGainValue').text(game.systems.getExperienceMultiplier().formatMultiplier());
     }
 
     UserInterface.prototype.updatePlayerAndMonster = function(gameTime) {
         // Update the player's health bar
         var hpBar = $("#playerHealthBar");
-        hpBar.css('width', (staticData.progressBarWidth - 2) * (legacyGame.player.health / legacyGame.player.getMaxHealth()));
+        hpBar.css('width', (staticData.progressBarWidth - 2) * (legacyGame.player.health / game.systems.getMaxHealth()));
         hpBar.css('height', '23');
-        document.getElementById("playerHealthBarText").innerHTML = Math.floor(legacyGame.player.health).formatMoney(0) + ' / ' + Math.floor(legacyGame.player.getMaxHealth()).formatMoney(0);
+        document.getElementById("playerHealthBarText").innerHTML = Math.floor(legacyGame.player.health).formatMoney(0) + ' / ' + Math.floor(game.systems.getMaxHealth()).formatMoney(0);
 
         if (legacyGame.options.alwaysDisplayPlayerHealth) {
             $("#playerHealthBarText").show();
