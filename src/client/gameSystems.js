@@ -7,6 +7,24 @@ declare('GameSystems', function() {
 
         this.healthPerStamina = 5;
         this.armorPerStamina = 0.01;
+        this.critPerAgility = 0.01;
+
+        this.critCap = 0.75;
+
+        this.evasionBaseRating = 100;
+        this.evasionRatingPow = 1.06;
+        this.evasionCap = 0.75;
+
+        this.armorBaseRating = 150;
+        this.armorRatingPow = 1.06;
+        this.armorCap = 0.9;
+
+        this.baseItemDropChance = 0.10;
+
+        this.dropRateLEgendary = 0.001;
+        this.dropRateEpic = 0.025;
+        this.dropRateRare = 0.1;
+        this.dropRateUncommon = 0.3;
 
         // The base effect levels of each mercenaries special effects
         this.baseClericHp5PercentBonus = 0.05;
@@ -24,8 +42,57 @@ declare('GameSystems', function() {
     }
 
     // ---------------------------------------------------------------------------
+    // combat
+    // ---------------------------------------------------------------------------
+    GameSystems.prototype.isCriticalHit = function() {
+        return this.getCritChance() >= Math.random();
+    };
+
+    // ---------------------------------------------------------------------------
     // overall calculations
     // ---------------------------------------------------------------------------
+    GameSystems.prototype.getItemRarity = function(monsterRarity) {
+        var multiplier = 1 + this.getRarityMultiplier();
+
+        switch (monsterRarity) {
+            case MonsterRarity.RARE:
+                multiplier *= 1.1;
+                break;
+            case MonsterRarity.ELITE:
+                multiplier *= 1.5;
+                break;
+            case MonsterRarity.BOSS:
+                multiplier *= 2;
+                break;
+        }
+
+        rand = Math.random();
+        if (rand <= this.dropRateLEgendary * multiplier) { return ItemRarity.LEGENDARY; }
+        else if (rand <= this.dropRateEpic * multiplier) { return ItemRarity.EPIC; }
+        else if (rand <= this.dropRateRare * multiplier) { return ItemRarity.RARE; }
+        else if (rand <= this.dropRateUncommon * multiplier) { return ItemRarity.UNCOMMON; }
+        else { return ItemRarity.COMMON; }
+    };
+
+    GameSystems.prototype.getDropItem = function() {
+        return Math.random() <= this.baseItemDropChance;
+    };
+
+    GameSystems.prototype.getRarityMultiplier = function(rarity) {
+        switch (rarity) {
+            case ItemRarity.UNCOMMON:
+                return 1.1;
+            case ItemRarity.RARE:
+                return 1.3;
+            case ItemRarity.EPIC:
+                return 1.6;
+            case ItemRarity.LEGENDARY:
+                return 2;
+        }
+
+        return 1;
+    };
+
     GameSystems.prototype.getOverallMultiplier = function() {
         var multiplier = legacyGame.player.powerShards * this.shardMultiplier;
 
@@ -64,7 +131,7 @@ declare('GameSystems', function() {
         var baseValue = legacyGame.player.baseStats.health + legacyGame.player.baseItemBonuses.health;
         baseValue += game.systems.getStamina() * this.healthPerStamina;
 
-        var multiplier = 1 + this.getOverallMultiplier() + this.getCommanderHealthMultiplier();
+        var multiplier = 1 + this.getCommanderHealthMultiplier();
 
         return Math.floor(baseValue * multiplier);
     };
@@ -72,7 +139,7 @@ declare('GameSystems', function() {
     GameSystems.prototype.getHp5 = function() {
         var baseValue = legacyGame.player.baseStats.hp5 + legacyGame.player.levelUpBonuses.hp5 + legacyGame.player.baseItemBonuses.hp5;
         baseValue += this.getStamina();
-        var multiplier = 1 + this.getOverallMultiplier() + this.getClericHp5Multiplier();
+        var multiplier = 1 + this.getClericHp5Multiplier();
 
         return Math.floor(baseValue * multiplier);
     };
@@ -100,8 +167,7 @@ declare('GameSystems', function() {
 
     GameSystems.prototype.getDamageBonusMultiplier = function() {
         var baseValue = legacyGame.player.baseStats.damageBonus + legacyGame.player.baseItemBonuses.damageBonus;
-        baseValue += this.getStrength();
-        var multiplier = 1 + this.getOverallMultiplier() + this.getMageDamageMultiplier();
+        var multiplier = 1 + this.getMageDamageMultiplier();
 
         return baseValue * multiplier;
     };
@@ -109,7 +175,7 @@ declare('GameSystems', function() {
     GameSystems.prototype.getMinDamage = function() {
         var baseValue = 1 + legacyGame.player.baseStats.minDamage + legacyGame.player.baseItemBonuses.minDamage;
         baseValue += this.getStrength();
-        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier() + this.getOverallMultiplier();
+        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
 
         return Math.floor(baseValue * multiplier);
     };
@@ -117,7 +183,7 @@ declare('GameSystems', function() {
     GameSystems.prototype.getMaxDamage = function() {
         var baseValue = 1 + legacyGame.player.baseStats.maxDamage + legacyGame.player.baseItemBonuses.maxDamage;
         baseValue += this.getStrength();
-        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier() + this.getOverallMultiplier();
+        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
 
         return Math.floor(baseValue * multiplier);
     };
@@ -130,19 +196,64 @@ declare('GameSystems', function() {
     };
 
     GameSystems.prototype.getArmor = function() {
-        var baseValue = this.baseStats.armour + this.baseItemBonuses.armour;
+        var baseValue = legacyGame.player.baseStats.armour + legacyGame.player.baseItemBonuses.armour;
         baseValue += this.getStamina() * this.armorPerStamina;
-        var multiplier = 1 + this.getOverallMultiplier();
+        var multiplier = 1;
 
         return Math.floor(baseValue * multiplier);
     };
 
+    GameSystems.prototype.getArmorDamageReduction = function() {
+        var coefficient = this.armorBaseRating + Math.pow(this.armorRatingPow, legacyGame.player.level);
+        var reduction = this.getArmor() / coefficient
+
+        if (reduction >= this.armorCap) {
+            reduction = this.armorCap;
+        }
+
+        return reduction;
+    };
+
     GameSystems.prototype.getEvasion = function() {
-        var baseValue = this.baseStats.evasion + this.baseItemBonuses.evasion;
+        var baseValue = legacyGame.player.baseStats.evasion + legacyGame.player.baseItemBonuses.evasion;
         baseValue += this.getAgility();
-        var multiplier = 1 + game.systems.getOverallMultiplier() + this.getAssassinEvasionMultiplier();
+        var multiplier = 1 + this.getAssassinEvasionMultiplier();
 
         return Math.floor(baseValue * multiplier);
+    };
+
+    GameSystems.prototype.getEvasionChance = function() {
+        // Calculate the chance
+        var coefficient = this.evasionBaseRating + Math.pow(this.evasionRatingPow, legacyGame.player.level);
+        var chance = (this.getEvasion() / coefficient);
+
+        // Cap the dodge at 75%
+        if (chance >= this.evasionCap) {
+            chance = this.evasionCap;
+        }
+
+        return chance;
+    }
+
+    GameSystems.prototype.getCritChance = function() {
+        var baseValue = legacyGame.player.baseStats.critChance + legacyGame.player.baseItemBonuses.critChance;
+        baseValue += this.getAgility() * this.critPerAgility;
+
+        var multiplier = 1;
+
+        var value = baseValue * multiplier;
+        if(value > this.critCap) {
+            value = this.critCap;
+        }
+
+        return value;
+    };
+
+    GameSystems.prototype.getCritDamageMultiplier = function() {
+        var baseValue = legacyGame.player.baseStats.critDamage + legacyGame.player.baseItemBonuses.critDamage;
+        var multiplier = 1 + this.getWarlockCritDamageMultiplier();
+
+        return baseValue * multiplier;
     };
 
     // ---------------------------------------------------------------------------
@@ -202,7 +313,19 @@ declare('GameSystems', function() {
     GameSystems.prototype.getAssassinEvasionUpgradeMultiplier = function() {
         var ownedUpgrades = legacyGame.upgradeManager.assassinSpecialUpgradesPurchased;
         return ownedUpgrades * this.assassinEvasionPercentUpgradeValue;
-    }
+    };
+
+    GameSystems.prototype.getWarlockCritDamageMultiplier = function() {
+        var owned = legacyGame.mercenaryManager.warlocksOwned;
+        var multiplier = 1 + this.baseWarlockCritDamageBonus + this.getWarlockCritDamageUpgradeMultiplier();
+
+        return owned * multiplier;
+    };
+
+    GameSystems.prototype.getWarlockCritDamageUpgradeMultiplier = function() {
+        var ownedUpgrades = legacyGame.upgradeManager.warlockSpecialUpgradesPurchased;
+        return ownedUpgrades * this.warlockCritDamageUpgradeValue;
+    };
 
     return new GameSystems();
 

@@ -374,16 +374,16 @@ declare('UserInterface', function () {
         $('#levelValue').text(legacyGame.player.level);
         $('#healthValue').text(legacyGame.player.health.formatMoney(0) + ' / ' + game.systems.getMaxHealth().formatMoney(0));
         $('#hp5Value').text(game.systems.getHp5().formatMoney(0));
-        $('#damageValue').text(game.systems.getMinDamage().formatMoney(0) + ' - ' + legacyGame.player.getMaxDamage().formatMoney(0));
+        $('#damageValue').text(game.systems.getMinDamage().formatMoney(0) + ' - ' + game.systems.getMaxDamage().formatMoney(0));
         $('#damageBonusValue').text(game.systems.getDamageBonusMultiplier().formatMultiplier());
-        $('#armourValue').text(game.systems.getArmor().formatMoney(0) + ' (' + legacyGame.player.calculateDamageReduction().formatMoney(2) + '%)');
-        $('#evasionValue').text(game.systems.getEvasion().formatMoney(0) + ' (' + legacyGame.player.calculateEvasionChance().formatMoney(2) + '%)');
+        $('#armourValue').text(game.systems.getArmor().formatMoney(0) + ' (' + game.systems.getArmorDamageReduction().formatMultiplier() + ')');
+        $('#evasionValue').text(game.systems.getEvasion().formatMoney(0) + ' (' + game.systems.getEvasionChance().formatMultiplier() + ')');
 
         $('#strengthValue').text(game.systems.getStrength().formatMoney(0));
         $('#staminaValue').text(game.systems.getStamina().formatMoney(0));
         $('#agilityValue').text(game.systems.getAgility().formatMoney(0));
-        $('#critChanceValue').text(legacyGame.player.getCritChance().formatMoney(2) + '%');
-        $('#critDamageValue').text(legacyGame.player.getCritDamage().formatMoney(0) + '%');
+        $('#critChanceValue').text(game.systems.getCritChance().formatMultiplier());
+        $('#critDamageValue').text(game.systems.getCritDamageMultiplier().formatMultiplier());
 
         $('#itemRarityValue').text(game.systems.getRarityMultiplier().formatMultiplier());
         $('#goldGainValue').text(game.systems.getGoldMultiplier().formatMultiplier());

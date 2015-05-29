@@ -14,8 +14,8 @@ function Player() {
     this.baseStats.strength = 0;
     this.baseStats.agility = 0;
     this.baseStats.stamina = 0;
-    this.baseStats.critChance = 5;
-    this.baseStats.critDamage = 150;
+    this.baseStats.critChance = 0.05;
+    this.baseStats.critDamage = 1.5;
     this.baseStats.itemRarity = 0;
     this.baseStats.goldGain = 0;
     this.baseStats.experienceGain = 0;
@@ -79,23 +79,8 @@ function Player() {
 
 
 
-    this.getCritChance = function getCritChance() {
-        var multiplier = 1;
-        var baseValue = this.baseStats.critChance + this.chosenLevelUpBonuses.critChance + this.baseItemBonuses.critChance;
-        baseValue += game.systems.getAgility() / 100;
-        baseValue *= multiplier;
 
-        var coefficient = 75 + legacyGame.player.level * 0.1;
-        var value = (baseValue / coefficient) * 75;
-        if(value > 75) {
-            value = 75;
-        }
 
-        return value;
-    }
-    this.getCritDamage = function getCritDamage() {
-        return ((this.baseStats.critDamage + this.chosenLevelUpBonuses.critDamage + this.baseItemBonuses.critDamage) + (legacyGame.mercenaryManager.getWarlockCritDamageBonus() * legacyGame.mercenaryManager.warlocksOwned)) * game.systems.getOverallMultiplier();
-    }
 
     // Get the power of a certain special effect
     this.getEffectsOfType = function getEffectsOfType(type) {
@@ -151,8 +136,8 @@ function Player() {
             // Calculate the damage
             var damage = this.abilities.getIceBladeDamage(0);
             // See if the player will crit
-            if (this.getCritChance() >= (Math.random() * 100)) {
-                damage *= (this.getCritDamage() / 100);
+            if (game.systems.isCriticalHit()) {
+                damage *= game.systems.getCritDamageMultiplier();
                 criticalHappened = true;
             }
             // Damage the monster
@@ -166,8 +151,8 @@ function Player() {
             // Calculate the damage
             var damage = this.abilities.getFireBladeDamage(0);
             // See if the player will crit
-            if (this.getCritChance() >= (Math.random() * 100)) {
-                damage *= (this.getCritDamage() / 100);
+            if (game.systems.isCriticalHit()) {
+                damage *= game.systems.getCritDamageMultiplier();
                 criticalHappened = true;
             }
             // Damage the monster
@@ -220,8 +205,8 @@ function Player() {
     // Take an amount of damage
     this.takeDamage = function takeDamage(damage) {
         // Reduce the damage based on the amount of armour
-        var damageReduction = this.calculateDamageReduction();
-        var newDamage = damage - Math.floor(damage * (damageReduction / 100));
+        var damageReduction = game.systems.getArmorDamageReduction();
+        var newDamage = damage - Math.floor(damage * damageReduction);
         if (newDamage < 0) { newDamage = 0; }
 
         // Take the damage
@@ -248,32 +233,6 @@ function Player() {
         // Create the monster's damage particle
         legacyGame.particleManager.createParticle(newDamage, ParticleType.MONSTER_DAMAGE);
         return newDamage;
-    }
-
-    // Calculate the amount of reduction granted by armour
-    this.calculateDamageReduction = function calculateDamageReduction() {
-        // Calculate the reduction
-        var reduction = (game.systems.getArmor() / Math.pow(1.055, legacyGame.player.level)) * 90
-
-        // Cap the reduction at 90%
-        if (reduction >= 90) {
-            reduction = 90;
-        }
-
-        return reduction;
-    }
-
-    // Calculate the chance the player has of dodging an attack
-    this.calculateEvasionChance = function calculateEvasionChance() {
-        // Calculate the chance
-        var chance = (game.systems.getEvasion() / Math.pow(1.052, legacyGame.player.level)) * 75;
-
-        // Cap the dodge at 75%
-        if (chance >= 75) {
-            chance = 75;
-        }
-
-        return chance;
     }
 
     // Heal the player for a specified amount

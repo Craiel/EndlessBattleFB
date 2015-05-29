@@ -32,7 +32,6 @@ function FrozenBattle() {
         this.settings.load();
 
         this.registerHooks();
-        this.applyLevelResetBonus();
         
         // Apply bought stats
         this.applyStatIncrease();
@@ -55,7 +54,6 @@ function FrozenBattle() {
         legacyGame.native_save = legacyGame.save;
         legacyGame.native_load = legacyGame.load;
         legacyGame.native_reset = legacyGame.reset;
-        legacyGame.player.native_getCritChance = legacyGame.player.getCritChance;
         legacyGame.mercenaryManager.native_purchaseMercenary = legacyGame.mercenaryManager.purchaseMercenary;
         legacyGame.monsterCreator.native_createRandomMonster = legacyGame.monsterCreator.createRandomMonster;
 
@@ -65,7 +63,6 @@ function FrozenBattle() {
         legacyGame.save = this.onSave;
         legacyGame.load = this.onLoad;
         legacyGame.reset = this.onReset;
-        legacyGame.player.getCritChance = this.onGetCritChance;
         legacyGame.mercenaryManager.purchaseMercenary = this.onPurchaseMercenary;
         legacyGame.monsterCreator.createRandomMonster = this.onCreateMonster;
         
@@ -87,7 +84,6 @@ function FrozenBattle() {
         legacyGame.save = legacyGame.native_save;
         legacyGame.load = legacyGame.native_load;
         legacyGame.reset = legacyGame.native_reset;
-        legacyGame.player.getCritChance = legacyGame.player.native_getCritChance;
         legacyGame.mercenaryManager.purchaseMercenary = legacyGame.mercenaryManager.native_purchaseMercenary;
         legacyGame.monsterCreator.createRandomMonster = legacyGame.monsterCreator.native_createRandomMonster;
         
@@ -100,12 +96,15 @@ function FrozenBattle() {
         var self = legacyGame.FrozenBattle;
 
         self.releaseHooks();
-        self.settings.levelsReset += legacyGame.player.level - 1;
+        if(fullReset) {
+            self.settings.levelsReset = 0;
+        } else {
+            self.settings.levelsReset += legacyGame.player.level - 1;
+        }
         frozenUtils.log("Resetting");
 
         legacyGame.native_reset();
 
-        self.applyLevelResetBonus();
         self.settings.autoCombatMaxLevelDifference = 0;
         self.settings.autoCombatLevel = 1;
         self.settings.statIncreaseAgi = 0;
@@ -124,15 +123,6 @@ function FrozenBattle() {
 
     this.onPurchaseMercenary = function(type) {
         legacyGame.mercenaryManager.native_purchaseMercenary(type);
-    }
-
-    this.onGetCritChance = function() {
-        var chance = legacyGame.player.native_getCritChance();
-        if (chance > 90) {
-            return 90;
-        }
-
-        return chance;
     }
 
     this.onUpdate = function() {
@@ -300,9 +290,6 @@ function FrozenBattle() {
         deduction += legacyGame.mercenaryManager.assassinsOwned * 150;
         deduction += legacyGame.mercenaryManager.warlocksOwned * 250;
         var multiplier = 1.0;
-        if(this.settings.applyLevelResetBonus) {
-            multiplier += this.settings.levelsReset * 0.001;
-        }
         
         deduction *= multiplier;
         time -= deduction;
@@ -311,16 +298,6 @@ function FrozenBattle() {
         }
 
         return time;
-    };
-
-    this.getDoubleHitChance = function() {
-        var baseChance = 0.01;
-        var chance = legacyGame.player.native_getCritChance();
-        if (chance > 90) {
-            baseChance += (chance - 90) / 1000;
-        }
-
-        return baseChance;
     };
 
     this.autoSell = function(time) {
@@ -605,18 +582,6 @@ function FrozenBattle() {
         this.settings.stats["Agi bought"] = this.settings.statIncreaseAgi;
 
         this.updateInterfaceStats();
-    }
-    
-    this.applyLevelResetBonus = function() {
-        if (this.settings.applyLevelResetBonus) {
-            legacyGame.player.baseStats.damageBonus += this.settings.levelsReset;
-            //legacyGame.player.baseStats.goldGain += this.settings.levelsReset;
-            //legacyGame.player.baseStats.experienceGain += this.settings.levelsReset;
-        } else {
-            legacyGame.player.baseStats.damageBonus -= this.settings.levelsReset;
-            //legacyGame.player.baseStats.goldGain -= this.settings.levelsReset;
-            //legacyGame.player.baseStats.experienceGain -= this.settings.levelsReset;
-        }
     }
     
     this.applyStatIncrease = function() {
@@ -934,7 +899,6 @@ function FrozenBattle() {
     this.onToggleApplyLevelResetBonus = function() {
         var self = legacyGame.FrozenBattle;
         self.settings.applyLevelResetBonus = !self.settings.applyLevelResetBonus;
-        self.applyLevelResetBonus();
     }
 
     this.onToggleAutoSellThreshold = function() {

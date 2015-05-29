@@ -141,8 +141,8 @@ function Game() {
 
             for (var x = 0; x < attackAmount; x++) {
                 // Calculate the damage
-                var playerMinDamage = this.player.getMinDamage();
-                var playerMaxDamage = this.player.getMaxDamage();
+                var playerMinDamage = game.systems.getMinDamage();
+                var playerMaxDamage = game.systems.getMaxDamage();
                 var playerDamage = playerMinDamage + (Math.random() * (playerMaxDamage - playerMinDamage));
 
                 // If the player is using power strike, multiply the damage
@@ -152,8 +152,8 @@ function Game() {
 
                 // See if the player will crit
                 var criticalHappened = false;
-                if (this.player.getCritChance() >= (Math.random() * 100)) {
-                    playerDamage *= (this.player.getCritDamage() / 100);
+                if (game.systems.isCriticalHit()) {
+                    playerDamage *= game.systems.getCritDamageMultiplier();
                     criticalHappened = true;
                 }
 
@@ -189,8 +189,8 @@ function Game() {
 
                         // See if the player will crit
                         criticalHappened = false;
-                        if (this.player.getCritChance() >= (Math.random() * 100)) {
-                            playerDamage *= (this.player.getCritDamage() / 100);
+                        if (game.systems.isCriticalHit()) {
+                            playerDamage *= game.systems.getCritDamageMultiplier();
                             criticalHappened = true;
                         }
 
@@ -239,7 +239,7 @@ function Game() {
         var playersDamageTaken = 0;
         if (this.monster.canAttack && this.monster.alive) {
             // See if the player will dodge the attack
-            if (Math.random() >= (this.player.calculateEvasionChance() / 100)) {
+            if (Math.random() >= game.systems.getEvasionChance()) {
                 var monsterDamage = this.monster.damage;
                 game.playerTakeDamage(monsterDamage);
                 playersDamageTaken = monsterDamage;

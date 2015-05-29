@@ -21,7 +21,10 @@ function Monster(name, level, rarity, health, damage, armour, goldWorth, experie
     this.getRandomLoot = function getRandomLoot() {
         var loot = new Loot();
         loot.gold = this.goldWorth;
-        loot.item = legacyGame.itemCreator.createRandomItem(this.level, legacyGame.itemCreator.getRandomItemRarity(this.rarity));
+
+        if(game.systems.getDropItem()) {
+            loot.item = legacyGame.itemCreator.createRandomItem(this.level, game.systems.getItemRarity(this.rarity));
+        }
         return loot;
     }
 

@@ -1,32 +1,4 @@
 function ItemCreator() {
-    this.getRandomItemRarity = function getRandomItemRarity(monsterRarity) {
-        var rand = Math.random();
-        var rarityMultiplier = 1 + game.systems.getRarityMultiplier();
-
-        switch (monsterRarity) {
-            case MonsterRarity.COMMON:
-                break;
-            case MonsterRarity.RARE:
-                rarityMultiplier *= 1.5;
-                break;
-            case MonsterRarity.ELITE:
-                rarityMultiplier *= 2;
-                break;
-            case MonsterRarity.BOSS:
-                rarityMultiplier *= 5;
-                break;
-        }
-
-        if (rand < 0.20) {
-            rand = Math.random();
-            if (rand < 0.00005 * rarityMultiplier) { return ItemRarity.LEGENDARY; }
-            else if (rand < 0.0003 * rarityMultiplier) { return ItemRarity.EPIC; }
-            else if (rand < 0.002 * rarityMultiplier) { return ItemRarity.RARE; }
-            else if (rand < 0.01 * rarityMultiplier) { return ItemRarity.UNCOMMON; }
-            else { return ItemRarity.COMMON; }
-        }
-    }
-
     this.createRandomItem = function createRandomItem(level, rarity) {
         // If there is no rarity; do nothing
         if (rarity == null) {
@@ -183,27 +155,26 @@ function ItemCreator() {
 
         // If it's a weapon; add weapon damage
         if (type == ItemType.WEAPON) {
-            itemBonuses.minDamage = statGenerator.getRandomMinDamage(level);
-            itemBonuses.maxDamage = statGenerator.getRandomMaxDamage(level, itemBonuses.minDamage);
+            var min = statGenerator.getRandomMinDamage(level);
+            var max = statGenerator.getRandomMaxDamage(level, min);
             // Add damage depending on the rarity
+            var multiplier = 1;
             switch (rarity) {
                 case ItemRarity.UNCOMMON:
-                    itemBonuses.minDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1);
-                    itemBonuses.maxDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1);
-                    break;
+                    multiplier = 1.1;
                 case ItemRarity.RARE:
-                    itemBonuses.minDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1) * 2;
-                    itemBonuses.maxDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1) * 2;
+                    multiplier = 1.3;
                     break;
                 case ItemRarity.EPIC:
-                    itemBonuses.minDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1) * 3;
-                    itemBonuses.maxDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1) * 3;
+                    multiplier = 1.6;
                     break;
                 case ItemRarity.LEGENDARY:
-                    itemBonuses.minDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1) * 4;
-                    itemBonuses.maxDamage += Math.ceil(((2 * level) * Math.pow(1.001, level) * 0.75) + (level / 5) + 1) * 4;
+                    multiplier = 2;
                     break;
             }
+
+            itemBonuses.maxDamage = Math.ceil(min * multiplier);
+            itemBonuses.maxDamage = Math.ceil(max * multiplier);
         }
         // Else; add armour
         else {
