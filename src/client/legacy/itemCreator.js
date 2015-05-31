@@ -43,25 +43,24 @@ function ItemCreator() {
         while (amount > 0) {
             // Get the ID of the bonuses; randomly
             randBonus = Math.floor(Math.random() * PREFIX_AMOUNT);
-            var statGenerator = new StatGenerator();
             var nameGenerator = new NameGenerator();
 
             // Add the bonus to the item bonuses
             switch (randBonus) {
-                case 0:
+                /*case 0: // Rely on str to provide dmg bonus, this stat get's too worthless too fast
                     if (itemBonuses.damageBonus == 0 && type == ItemType.WEAPON) {
                         itemBonuses.damageBonus = statGenerator.getRandomDamageBonus(level);
                         if (prefix == "") { prefix = nameGenerator.getRandomDamageBonusName(); }
                         amount--;
                     }
-                    break;
-                case 1:
+                    break;*/
+                /*case 1:
                     if (itemBonuses.health == 0) {
-                        itemBonuses.health = statGenerator.getRandomHealthBonus(level);
+                        itemBonuses.health = game.systems.getRandomHealthBonus(level);
                         if (prefix == "") { prefix = nameGenerator.getRandomHealthName(); }
                         amount--;
                     }
-                    break;
+                    break;*/
                 case 2:
                     if (itemBonuses.armourBonus == 0 && type != ItemType.WEAPON) {
                         itemBonuses.armourBonus = game.systems.getRandomArmorBonus();
@@ -103,35 +102,35 @@ function ItemCreator() {
             switch (randBonus) {
                 case 0:
                     if (itemBonuses.strength == 0) {
-                        itemBonuses.strength = statGenerator.getRandomPrimaryStatBonus(level);
+                        itemBonuses.strength = game.systems.getRandomPrimaryStatBonus(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomStrengthName(); }
                         amount--;
                     }
                     break;
                 case 1:
                     if (itemBonuses.agility == 0) {
-                        itemBonuses.agility = statGenerator.getRandomPrimaryStatBonus(level);
+                        itemBonuses.agility = game.systems.getRandomPrimaryStatBonus(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomAgilityName(); }
                         amount--;
                     }
                     break;
                 case 2:
                     if (itemBonuses.stamina == 0) {
-                        itemBonuses.stamina = statGenerator.getRandomPrimaryStatBonus(level);
+                        itemBonuses.stamina = game.systems.getRandomPrimaryStatBonus(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomStaminaName(); }
                         amount--;
                     }
                     break;
-                case 3:
+                /*case 3: // No HP/5 bonus on items for anymore
                     if (itemBonuses.hp5 == 0) {
                         itemBonuses.hp5 = statGenerator.getRandomHp5Bonus(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomHp5Name(); }
                         amount--;
                     }
-                    break;
+                    break;*/
                 case 4:
                     if (itemBonuses.critDamage == 0) {
-                        itemBonuses.critDamage = statGenerator.getRandomCritDamageBonus(level);
+                        itemBonuses.critDamage = game.systems.getRandomCritDamageBonus();
                         if (suffix == "") { suffix = nameGenerator.getRandomCritDamageName(); }
                         amount--;
                     }
@@ -155,26 +154,8 @@ function ItemCreator() {
 
         // If it's a weapon; add weapon damage
         if (type == ItemType.WEAPON) {
-            var min = statGenerator.getRandomMinDamage(level);
-            var max = statGenerator.getRandomMaxDamage(level, min);
-            // Add damage depending on the rarity
-            var multiplier = 1;
-            switch (rarity) {
-                case ItemRarity.UNCOMMON:
-                    multiplier = 1.1;
-                case ItemRarity.RARE:
-                    multiplier = 1.3;
-                    break;
-                case ItemRarity.EPIC:
-                    multiplier = 1.6;
-                    break;
-                case ItemRarity.LEGENDARY:
-                    multiplier = 2;
-                    break;
-            }
-
-            itemBonuses.maxDamage = Math.ceil(min * multiplier);
-            itemBonuses.maxDamage = Math.ceil(max * multiplier);
+            itemBonuses.minDamage = game.systems.getRandomMinDamage(rarity, level);
+            itemBonuses.maxDamage = game.systems.getRandomMaxDamage(rarity, level, itemBonuses.minDamage);
         }
         // Else; add armour
         else {

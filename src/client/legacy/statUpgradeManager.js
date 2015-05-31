@@ -32,7 +32,7 @@ function StatUpgradesManager() {
             }
         }
 
-        var value = legacyGame.statGenerator.getRandomPrimaryStatBonus(level);
+        var value = game.systems.getPrimaryStatBonusForLevelup(level);
         upgradeTypes.push(StatUpgradeType.STRENGTH);
         upgradeAmounts.push(value);
 

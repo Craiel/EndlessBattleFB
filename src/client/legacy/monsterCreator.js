@@ -8,52 +8,12 @@ function MonsterCreator() {
     // Create a random monster of a specified level and rarity
     this.createRandomMonster = function createRandomMonster(level, rarity) {
         var name = this.names[Math.floor(Math.random() * this.names.length)];
-        var health = this.calculateMonsterHealth(level, rarity);
-        var damage = this.calculateMonsterDamage(level, rarity);
-        var goldWorth = this.calculateMonsterGoldWorth(level, rarity);
-        var experienceWorth = this.calculateMonsterExperienceWorth(level, rarity);
+        var health = game.systems.getMonsterHealth(rarity, level);
+        var damage = game.systems.getMonsterDamage(rarity, level);
+        var goldWorth = game.systems.getMonsterGoldWorth(rarity, level);
+        var experienceWorth = game.systems.getMonsterExperienceWorth(rarity, level);
 
         return new Monster(name, level, rarity, health, damage, 0, goldWorth, experienceWorth);
-    }
-
-    // Calculate how much health a monster would have of a certain level and rarity
-    this.calculateMonsterHealth = function calculateMonsterHealth(level, rarity) {
-        var health = Sigma(level) * Math.pow(1.054, level) + this.monsterBaseHealth;
-        health = Math.ceil(health);
-        switch (rarity) {
-            case "COMMON":
-                break;
-            case "RARE":
-                health *= 3;
-                break;
-            case "ELITE":
-                health *= 10;
-                break;
-            case "BOSS":
-                health *= 30;
-                break;
-        }
-        return health;
-    }
-
-    // Calculate how much damage a monster would have of a certain level and rarity
-    this.calculateMonsterDamage = function calculateMonsterDamage(level, rarity) {
-        var damage = (Sigma(level) * Math.pow(1.015, level)) / 3 + this.monsterBaseDamage;
-        damage = Math.ceil(damage);
-        switch (rarity) {
-            case "COMMON":
-                break;
-            case "RARE":
-                damage *= 2;
-                break;
-            case "ELITE":
-                damage *= 4;
-                break;
-            case "BOSS":
-                damage *= 8;
-                break;
-        }
-        return damage;
     }
 
     // Calculate how much gold a monster would give of a certain level and rarity

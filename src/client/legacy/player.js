@@ -1,11 +1,11 @@
 function Player() {
     this.level = 1;
-    this.health = 100;
+    this.health = 250;
 
     // Base values for all stats; these are static
     this.baseStats = new StatsSet();
     this.baseStats.health = this.health;
-    this.baseStats.hp5 = 10;
+    this.baseStats.hp5 = 0;
     this.baseStats.minDamage = 1;
     this.baseStats.maxDamage = 1;
     this.baseStats.damageBonus = 0;
@@ -191,7 +191,7 @@ function Player() {
                 this.abilityPoints++;
             }
 
-            this.experienceRequired = legacyGame.player.getExperienceRequired();
+            this.experienceRequired = game.systems.getExperienceRequired();
 
             // Add a set of upgrades
             legacyGame.statUpgradesManager.addRandomUpgrades(this.level);
@@ -413,9 +413,7 @@ function Player() {
         localStorage.powerShards = this.powerShards;
     }
 
-    this.getExperienceRequired = function() {
-        return Math.ceil(Sigma(legacyGame.player.level * 2) * Math.pow(1.055, legacyGame.player.level) + legacyGame.player.baseExperienceRequired);
-    };
+
 
     // Load all the player's data
     this.load = function load() {
@@ -494,6 +492,6 @@ function Player() {
         if (localStorage.playerAlive != null) { this.alive = JSON.parse(localStorage.playerAlive); }
 
         // Update the required XP after load
-        this.experienceRequired = legacyGame.player.getExperienceRequired();
+        this.experienceRequired = game.systems.getExperienceRequired();
     }
 }

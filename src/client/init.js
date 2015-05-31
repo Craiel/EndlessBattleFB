@@ -24,6 +24,10 @@ Number.prototype.formatMoney = function (c, d, t) {
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
 
+Number.prototype.formatPercentage = function(decimals) {
+    return this.formatMoney(decimals) + '%';
+};
+
 Number.prototype.formatMultiplier = function() {
     return (this * 100).formatMoney(2) + '%';
 };

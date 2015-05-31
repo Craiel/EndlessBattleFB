@@ -18,17 +18,17 @@ function TooltipManager() {
         var stats1 = '';
         var stats2 = '';
         if (item1.minDamage > 0) { stats1 += item1.minDamage + " - " + item1.maxDamage + " Damage"; }
-        if (item1.armour > 0) { stats1 += (item1.armour + item1.armourBonus) + " Armour"; }
+        if (item1.armour > 0) { stats1 += (item1.armour + item1.armourBonus.formatMoney()) + " Armour"; }
         if (item1.strength > 0) { stats2 += "<br>Strength: " + item1.strength; }
         if (item1.agility > 0) { stats2 += "<br>Agility: " + item1.agility; }
         if (item1.stamina > 0) { stats2 += "<br>Stamina: " + item1.stamina; }
         if (item1.health > 0) { stats2 += "<br>Health: " + item1.health; }
         if (item1.hp5 > 0) { stats2 += "<br>Hp5: " + item1.hp5; }
-        if (item1.critChance > 0) { stats2 += "<br>Crit Chance: " + item1.critChance + "%"; }
-        if (item1.critDamage > 0) { stats2 += "<br>Crit Damage: " + item1.critDamage + "%"; }
-        if (item1.itemRarity > 0) { stats2 += "<br>Item Rarity: " + item1.itemRarity + "%"; }
-        if (item1.goldGain > 0) { stats2 += "<br>Gold Gain: " + item1.goldGain + "%"; }
-        if (item1.experienceGain > 0) { stats2 += "<br>Experience Gain: " + item1.experienceGain + "%"; }
+        if (item1.critChance > 0) { stats2 += "<br>Crit Chance: " + item1.critChance.formatPercentage(2); }
+        if (item1.critDamage > 0) { stats2 += "<br>Crit Damage: " + item1.critDamage.formatPercentage(2); }
+        if (item1.itemRarity > 0) { stats2 += "<br>Item Rarity: " + item1.itemRarity.formatPercentage(2); }
+        if (item1.goldGain > 0) { stats2 += "<br>Gold Gain: " + item1.goldGain.formatPercentage(2); }
+        if (item1.experienceGain > 0) { stats2 += "<br>Experience Gain: " + item1.experienceGain.formatPercentage(2); }
         if (item1.evasion > 0) { stats2 += "<br>Evasion: " + item1.evasion; }
         var effect;
         var name;

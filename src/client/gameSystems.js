@@ -2,24 +2,60 @@ declare('GameSystems', function() {
 
     function GameSystems() {
 
+        // Checked values
         this.shardMultiplier = 0.02;
         this.resetMultiplier = 0.01;
+
+        this.playerBaseHealth = 250;
+
+        this.playerBaseExperienceRequired = 20;
+        this.playerExperiencePow = 2.5; // Needs sync with monsterExperiencePow
+
+        this.monsterBaseHealth = 20;
+        this.monsterHealthPow = 2.2;
+        this.monsterBaseDamage = 5;
+        this.monsterDamagePow = 2.1;
+
+        this.monsterBaseGoldWorth = 10;
+        this.monsterBaseExperienceWorth = 10;
+        this.monsterGoldPow = 2;
+        this.monsterExperiencePow = 2;
+
+        this.evasionBaseRating = 100;
+        this.evasionRatingPow = 1.5;
+        this.evasionMin = 0.00;
+        this.evasionCap = 0.75;
+
+        this.armorBaseRating = 150;
+        this.armorRatingPow = 1.5;
+        this.armorCap = 0.9;
+
+        this.critMin = 0.05;
+        this.critCap = 0.75;
+
+        this.weaponRangeMinStart = 0.01;
+        this.weaponRangeMinEnd = 0.05;
+        this.weaponRangeMaxStart = 0.08;
+        this.weaponRangeMaxEnd = 0.1;
+
+        // Unchecked values
+
 
         this.healthPerStamina = 5;
         this.armorPerStamina = 0.01;
         this.critPerAgility = 0.01;
 
-        this.critCap = 0.75;
 
-        this.evasionBaseRating = 100;
-        this.evasionRatingPow = 1.06;
-        this.evasionCap = 0.75;
-
-        this.armorBaseRating = 150;
-        this.armorRatingPow = 1.06;
-        this.armorCap = 0.9;
 
         this.baseItemDropChance = 0.10;
+
+        this.basePlayerStatPow = 1.001;
+
+
+        this.baseHealthPow = 1.02;
+        this.baseItemHealthPow = this.baseHealthPow = 1.00167; // ~baseHealthPow / 12
+        this.baseHp5Percentage = 0.01;
+        this.baseLevelupStatMultiplier = 0.1;
 
         this.dropRateLEgendary = 0.001;
         this.dropRateEpic = 0.025;
@@ -48,7 +84,7 @@ declare('GameSystems', function() {
         this.itemCapArmorBonus = 0.1;
 
         // These are fixed cap so we get only a certain max amount of these stats
-        this.itemCapCritDmg = 15; // will be max 150% extra with optimal item distribution
+        this.itemCapCritDmg = 0.15; // will be max 150% extra with optimal item distribution
 
         // Evasion is 1/6th of the required rating so in optimal conditions you need 6 slots with the stat to get maxed out
         this.itemBaseEvasion = Math.floor(this.evasionBaseRating / 6);
@@ -57,11 +93,6 @@ declare('GameSystems', function() {
         // Armor we give 1/9th since it's on all items except the weapon
         this.itemBaseArmor = Math.floor(this.armorBaseRating / 9);
         this.itemPowArmor = 1.0066;
-
-        // Todo: Check these pow values
-        this.itemPowStr = 1.01;
-        this.itemPowAgi = 1.01;
-        this.itemPowSta = 1.01;
     }
 
     // ---------------------------------------------------------------------------
@@ -74,6 +105,12 @@ declare('GameSystems', function() {
     // ---------------------------------------------------------------------------
     // overall calculations
     // ---------------------------------------------------------------------------
+    GameSystems.prototype.getExperienceRequired = function() {
+        var level = legacyGame.player.level;
+        var baseValue = this.playerBaseExperienceRequired + Math.pow(level, this.playerExperiencePow);
+        return baseValue;
+    };
+
     GameSystems.prototype.getItemRarity = function(monsterRarity) {
         var multiplier = 1 + this.getRarityMultiplier();
 
@@ -160,8 +197,9 @@ declare('GameSystems', function() {
     };
 
     GameSystems.prototype.getHp5 = function() {
-        var baseValue = legacyGame.player.baseStats.hp5 + legacyGame.player.levelUpBonuses.hp5 + legacyGame.player.baseItemBonuses.hp5;
-        baseValue += this.getStamina();
+        //var baseValue = legacyGame.player.baseStats.hp5 + legacyGame.player.levelUpBonuses.hp5 + legacyGame.player.baseItemBonuses.hp5;
+        //baseValue += this.getStamina();
+        var baseValue = (this.getMaxHealth() * 5) * this.baseHp5Percentage;
         var multiplier = 1 + this.getClericHp5Multiplier();
 
         return Math.floor(baseValue * multiplier);
@@ -196,19 +234,19 @@ declare('GameSystems', function() {
     };
 
     GameSystems.prototype.getMinDamage = function() {
-        var baseValue = 1 + legacyGame.player.baseStats.minDamage + legacyGame.player.baseItemBonuses.minDamage;
+        var baseValue = legacyGame.player.baseStats.minDamage + legacyGame.player.baseItemBonuses.minDamage;
         baseValue += this.getStrength();
         var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
 
-        return Math.floor(baseValue * multiplier);
+        return 1 + Math.floor(baseValue * multiplier);
     };
 
     GameSystems.prototype.getMaxDamage = function() {
-        var baseValue = 1 + legacyGame.player.baseStats.maxDamage + legacyGame.player.baseItemBonuses.maxDamage;
+        var baseValue = legacyGame.player.baseStats.maxDamage + legacyGame.player.baseItemBonuses.maxDamage;
         baseValue += this.getStrength();
         var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
 
-        return Math.floor(baseValue * multiplier);
+        return 1 + Math.floor(baseValue * multiplier);
     };
 
     GameSystems.prototype.getAverageDamage = function() {
@@ -228,7 +266,7 @@ declare('GameSystems', function() {
 
     GameSystems.prototype.getArmorDamageReduction = function() {
         var level = legacyGame.player.level;
-        var coefficient = this.armorBaseRating + level + Math.pow(this.armorRatingPow, level);
+        var coefficient = this.armorBaseRating + Math.pow(level, this.armorRatingPow);
         var reduction = this.getArmor() / coefficient
 
         if (reduction >= this.armorCap) {
@@ -249,8 +287,8 @@ declare('GameSystems', function() {
     GameSystems.prototype.getEvasionChance = function() {
         // Calculate the chance
         var level = legacyGame.player.level;
-        var coefficient = this.evasionBaseRating + level + Math.pow(this.evasionRatingPow, level);
-        var chance = (this.getEvasion() / coefficient);
+        var coefficient = this.evasionBaseRating + Math.pow(level, this.evasionRatingPow);
+        var chance = this.evasionMin + (this.getEvasion() / coefficient);
 
         // Cap the dodge at 75%
         if (chance >= this.evasionCap) {
@@ -266,7 +304,7 @@ declare('GameSystems', function() {
 
         var multiplier = 1;
 
-        var value = baseValue * multiplier;
+        var value = this.critMin + (baseValue * multiplier);
         if(value > this.critCap) {
             value = this.critCap;
         }
@@ -388,11 +426,11 @@ declare('GameSystems', function() {
     };
 
     GameSystems.prototype.getRandomEvasion = function(level) {
-        return Math.floor(Math.random() * (this.itemBaseEvasion + level + Math.pow(this.itemPowEvasion, level)));
+        return 1 + Math.floor(Math.random() * (this.itemBaseEvasion + level + Math.pow(this.itemPowEvasion, level)));
     };
 
     GameSystems.prototype.getRandomArmor = function(level) {
-        return Math.floor(Math.random() * (this.itemBaseArmor + level + Math.pow(this.itemPowArmor, level)));
+        return 1 + Math.floor(Math.random() * (this.itemBaseArmor + level + Math.pow(this.itemPowArmor, level)));
     };
 
     GameSystems.prototype.getRandomCritChanceBonus = function(maxValue) {
@@ -401,6 +439,117 @@ declare('GameSystems', function() {
         }
 
         return Math.random() * maxValue;
+    };
+
+    GameSystems.prototype.getRandomCritDamageBonus = function(maxValue) {
+        if(maxValue === undefined) {
+            maxValue = this.itemCapCritDmg;
+        }
+
+        return Math.random() * maxValue;
+    };
+
+    GameSystems.prototype.getRandomPrimaryStatBonus = function(level) {
+        return 1 + Math.floor(this.getRandomLevelBonusValue() + Math.pow(this.basePlayerStatPow, level));
+    };
+
+    GameSystems.prototype.getPrimaryStatBonusForLevelup = function(level) {
+        return 1 + Math.floor(Math.pow(this.basePlayerStatPow, level) * this.baseLevelupStatMultiplier);
+    };
+
+    GameSystems.prototype.getRandomLevelBonusValue = function(level) {
+        return Math.floor(Math.random() * level);
+    };
+
+    GameSystems.prototype.getRandomDamageRarityMultiplier = function(rarity) {
+        switch (rarity) {
+            case ItemRarity.UNCOMMON:
+                return 1.1;
+            case ItemRarity.RARE:
+                return 1.3;
+                break;
+            case ItemRarity.EPIC:
+                return 1.6;
+                break;
+            case ItemRarity.LEGENDARY:
+                return 2;
+                break;
+        }
+
+        return 1;
+    };
+
+    GameSystems.prototype.getRandomMinDamage = function(rarity, level) {
+        var monsterHealth = this.getMonsterHealth(MonsterRarity.COMMON, level);
+        var min = monsterHealth * this.weaponRangeMinStart;
+        var max = monsterHealth * this.weaponRangeMinEnd;
+        var range = max - min;
+        var multiplier = this.getRandomDamageRarityMultiplier();
+        return 1 + Math.floor((min + (Math.random() * range)) * multiplier);
+    };
+
+    GameSystems.prototype.getRandomMaxDamage = function(rarity, level, min) {
+        var monsterHealth = this.getMonsterHealth(MonsterRarity.COMMON, level);
+        var min = monsterHealth * this.weaponRangeMaxStart;
+        var max = monsterHealth * this.weaponRangeMaxEnd;
+        var range = max - min;
+        var multiplier = this.getRandomDamageRarityMultiplier();
+        var value = 1 + Math.floor((min + (Math.random() * range)) * multiplier);
+        if(value < min) {
+            value = min;
+        }
+
+        return value;
+    };
+
+    // ---------------------------------------------------------------------------
+    // monsters
+    // ---------------------------------------------------------------------------
+    GameSystems.prototype.getMonsterRarityMultiplier = function(rarity) {
+        switch (rarity) {
+            case MonsterRarity.RARE:
+                return 1.2;
+                break;
+            case MonsterRarity.ELITE:
+                return 1.5;
+                break;
+            case MonsterRarity.BOSS:
+                return 2;
+                break;
+        }
+
+        return 1;
+    };
+
+    GameSystems.prototype.getMonsterHealth = function(rarity, level) {
+        var baseValue = this.monsterBaseHealth + Math.floor(Math.pow(level, this.monsterHealthPow));
+        var multiplier = this.getMonsterRarityMultiplier(rarity);
+
+        return Math.floor(baseValue * multiplier);
+    };
+
+    GameSystems.prototype.getMonsterDamage = function(rarity, level) {
+        var baseValue = this.monsterBaseDamage + Math.floor(Math.pow(level, this.monsterDamagePow));
+        var multiplier = this.getMonsterRarityMultiplier(rarity);
+
+        return Math.floor(baseValue * multiplier);
+    };
+
+
+    GameSystems.prototype.getMonsterGoldWorth = function(rarity, level) {
+        var baseValue = this.monsterBaseGoldWorth + this.getRandomLevelBonusValue(level) + Math.pow(level, this.monsterGoldPow);
+        var diff = (baseValue * 1.1) - (baseValue * 0.9);
+        var value = baseValue + (Math.random() * diff);
+        var multiplier = this.getMonsterRarityMultiplier(rarity);
+        return Math.floor(value * multiplier);
+    };
+
+    GameSystems.prototype.getMonsterExperienceWorth = function(rarity, level) {
+        var baseValue = this.monsterBaseExperienceWorth + this.getRandomLevelBonusValue(level) + Math.pow(level, this.monsterExperiencePow);
+        var diff = (baseValue * 1.1) - (baseValue * 0.9);
+        var value = baseValue + (Math.random() * diff);
+        var multiplier = this.getMonsterRarityMultiplier(rarity);
+        return Math.floor(value * multiplier);
     };
 
     return new GameSystems();

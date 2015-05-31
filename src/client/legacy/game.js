@@ -10,7 +10,6 @@ function Game() {
     this.player = new Player();
     this.inventory = new Inventory();
     this.equipment = new Equipment();
-    this.statGenerator = new StatGenerator();
     this.nameGenerator = new NameGenerator();
     this.statUpgradesManager = new StatUpgradesManager();
 
@@ -37,9 +36,7 @@ function Game() {
 
     // Monsters
     this.monsterCreator = new MonsterCreator();
-    this.monster = this.monsterCreator.createRandomMonster(
-        this.battleLevel,
-        this.monsterCreator.calculateMonsterRarity(this.battleLevel, this.battleDepth));
+    this.monster = undefined;
     this.displayMonsterHealth = false;
 
     // Items
@@ -439,7 +436,6 @@ function Game() {
         this.player = new Player();
         this.inventory = new Inventory();
         this.equipment = new Equipment();
-        this.statGenerator = new StatGenerator();
         this.nameGenerator = new NameGenerator();
         this.statUpgradesManager = new StatUpgradesManager();
 
