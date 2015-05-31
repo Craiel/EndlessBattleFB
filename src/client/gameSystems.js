@@ -39,6 +39,29 @@ declare('GameSystems', function() {
         this.mageDamagePercentUpgradeValue = 0.025;
         this.assassinEvasionPercentUpgradeValue = 0.025;
         this.warlockCritDamageUpgradeValue = 0.025;
+
+        // Cap the multipliers
+        this.itemCapRarity = 0.1;
+        this.itemCapGoldGain = 0.1;
+        this.itemCapExperienceGain = 0.1;
+        this.itemCapCrit = 0.1;
+        this.itemCapArmorBonus = 0.1;
+
+        // These are fixed cap so we get only a certain max amount of these stats
+        this.itemCapCritDmg = 15; // will be max 150% extra with optimal item distribution
+
+        // Evasion is 1/6th of the required rating so in optimal conditions you need 6 slots with the stat to get maxed out
+        this.itemBaseEvasion = Math.floor(this.evasionBaseRating / 6);
+        this.itemPowEvasion = 1.01;
+
+        // Armor we give 1/9th since it's on all items except the weapon
+        this.itemBaseArmor = Math.floor(this.armorBaseRating / 9);
+        this.itemPowArmor = 1.0066;
+
+        // Todo: Check these pow values
+        this.itemPowStr = 1.01;
+        this.itemPowAgi = 1.01;
+        this.itemPowSta = 1.01;
     }
 
     // ---------------------------------------------------------------------------
@@ -204,7 +227,8 @@ declare('GameSystems', function() {
     };
 
     GameSystems.prototype.getArmorDamageReduction = function() {
-        var coefficient = this.armorBaseRating + Math.pow(this.armorRatingPow, legacyGame.player.level);
+        var level = legacyGame.player.level;
+        var coefficient = this.armorBaseRating + level + Math.pow(this.armorRatingPow, level);
         var reduction = this.getArmor() / coefficient
 
         if (reduction >= this.armorCap) {
@@ -224,7 +248,8 @@ declare('GameSystems', function() {
 
     GameSystems.prototype.getEvasionChance = function() {
         // Calculate the chance
-        var coefficient = this.evasionBaseRating + Math.pow(this.evasionRatingPow, legacyGame.player.level);
+        var level = legacyGame.player.level;
+        var coefficient = this.evasionBaseRating + level + Math.pow(this.evasionRatingPow, level);
         var chance = (this.getEvasion() / coefficient);
 
         // Cap the dodge at 75%
@@ -233,7 +258,7 @@ declare('GameSystems', function() {
         }
 
         return chance;
-    }
+    };
 
     GameSystems.prototype.getCritChance = function() {
         var baseValue = legacyGame.player.baseStats.critChance + legacyGame.player.baseItemBonuses.critChance;
@@ -325,6 +350,57 @@ declare('GameSystems', function() {
     GameSystems.prototype.getWarlockCritDamageUpgradeMultiplier = function() {
         var ownedUpgrades = legacyGame.upgradeManager.warlockSpecialUpgradesPurchased;
         return ownedUpgrades * this.warlockCritDamageUpgradeValue;
+    };
+
+    // ---------------------------------------------------------------------------
+    // stat generation
+    // ---------------------------------------------------------------------------
+    GameSystems.prototype.getRandomItemRarityBonus = function(maxValue) {
+        if(maxValue === undefined) {
+            maxValue = this.itemCapRarity;
+        }
+
+        return Math.random() * maxValue;
+    };
+
+    GameSystems.prototype.getRandomGoldGainBonus = function(maxValue) {
+        if(maxValue === undefined) {
+            maxValue = this.itemCapGoldGain;
+        }
+
+        return Math.random() * maxValue;
+    };
+
+    GameSystems.prototype.getRandomExperienceGainBonus = function(maxValue) {
+        if(maxValue === undefined) {
+            maxValue = this.itemCapExperienceGain;
+        }
+
+        return Math.random() * maxValue;
+    };
+
+    GameSystems.prototype.getRandomArmorBonus = function(maxValue) {
+        if(maxValue === undefined) {
+            maxValue = this.itemCapArmorBonus;
+        }
+
+        return Math.random() * maxValue;
+    };
+
+    GameSystems.prototype.getRandomEvasion = function(level) {
+        return Math.floor(Math.random() * (this.itemBaseEvasion + level + Math.pow(this.itemPowEvasion, level)));
+    };
+
+    GameSystems.prototype.getRandomArmor = function(level) {
+        return Math.floor(Math.random() * (this.itemBaseArmor + level + Math.pow(this.itemPowArmor, level)));
+    };
+
+    GameSystems.prototype.getRandomCritChanceBonus = function(maxValue) {
+        if(maxValue === undefined) {
+            maxValue = this.itemCapCrit;
+        }
+
+        return Math.random() * maxValue;
     };
 
     return new GameSystems();

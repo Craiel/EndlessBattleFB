@@ -267,12 +267,7 @@ function FrozenBattle() {
             legacyGame.enterBattle();
         }
 
-        var doubleHitChance = this.getDoubleHitChance();
         var attacks = 1;
-        if (Math.random() < doubleHitChance) {
-            attacks++;
-        }
-
         while (attacks >= 1) {
             this.addStat("Auto attacks");
             legacyGame.attack();

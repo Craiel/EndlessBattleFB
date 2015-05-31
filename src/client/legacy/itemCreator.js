@@ -64,28 +64,28 @@ function ItemCreator() {
                     break;
                 case 2:
                     if (itemBonuses.armourBonus == 0 && type != ItemType.WEAPON) {
-                        itemBonuses.armourBonus = statGenerator.getRandomArmourBonus(level);
+                        itemBonuses.armourBonus = game.systems.getRandomArmorBonus();
                         if (prefix == "") { prefix = nameGenerator.getRandomArmourBonusName(); }
                         amount--;
                     }
                     break;
                 case 3:
                     if (itemBonuses.critChance == 0) {
-                        itemBonuses.critChance = statGenerator.getRandomCritChanceBonus(level);
+                        itemBonuses.critChance = game.systems.getRandomCritChanceBonus();
                         if (prefix == "") { prefix = nameGenerator.getRandomCritChanceName(); }
                         amount--;
                     }
                     break;
                 case 4:
                     if (itemBonuses.itemRarity == 0) {
-                        itemBonuses.itemRarity = statGenerator.getRandomItemRarityBonus(level);
+                        itemBonuses.itemRarity = game.systems.getRandomItemRarityBonus();
                         if (prefix == "") { prefix = nameGenerator.getRandomItemRarityName(); }
                         amount--;
                     }
                     break;
                 case 5:
                     if (itemBonuses.goldGain == 0) {
-                        itemBonuses.goldGain = statGenerator.getRandomGoldGainBonus(level);
+                        itemBonuses.goldGain = game.systems.getRandomGoldGainBonus();
                         if (prefix == "") { prefix = nameGenerator.getRandomGoldGainName(); }
                         amount--;
                     }
@@ -138,14 +138,14 @@ function ItemCreator() {
                     break;
                 case 5:
                     if (itemBonuses.experienceGain == 0) {
-                        itemBonuses.experienceGain = statGenerator.getRandomExperienceGainBonus(level);
+                        itemBonuses.experienceGain = game.systems.getRandomExperienceGainBonus();
                         if (suffix == "") { suffix = nameGenerator.getRandomExperienceGainName(); }
                         amount--;
                     }
                     break;
                 case 6:
                     if (itemBonuses.evasion == 0) {
-                        itemBonuses.evasion = statGenerator.getRandomEvasionBonus(level);
+                        itemBonuses.evasion = game.systems.getRandomEvasion(level);
                         if (suffix == "") { suffix = nameGenerator.getRandomEvasionName(); }
                         amount--;
                     }
@@ -178,7 +178,7 @@ function ItemCreator() {
         }
         // Else; add armour
         else {
-            itemBonuses.armour = statGenerator.getRandomArmour(level);
+            itemBonuses.armour = game.systems.getRandomArmor(level);
         }
 
         // Create the name
