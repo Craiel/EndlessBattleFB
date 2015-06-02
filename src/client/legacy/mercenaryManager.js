@@ -50,15 +50,6 @@ function mercenaryManager() {
     // All the mercenaries the player owns
     this.mercenaries = new Array();
 
-    this.initialize = function initialize() {
-        document.getElementById("footmanCost").innerHTML = this.footmanPrice.formatMoney(0);
-        document.getElementById("clericCost").innerHTML = this.clericPrice.formatMoney(0);
-        document.getElementById("commanderCost").innerHTML = this.commanderPrice.formatMoney(0);
-        document.getElementById("mageCost").innerHTML = this.magePrice.formatMoney(0);
-        document.getElementById("assassinCost").innerHTML = this.assassinPrice.formatMoney(0);
-        document.getElementById("warlockCost").innerHTML = this.warlockPrice.formatMoney(0);
-    }
-
     // Add a new mercenary of a specified type for the player
     this.addMercenary = function addMercenary(type) {
         switch (type) {
@@ -192,35 +183,6 @@ function mercenaryManager() {
                 case MercenaryType.ASSASSIN: this.assassinPrice = Math.floor(this.baseAssassinPrice * Math.pow(1.15, this.assassinsOwned)); break;
                 case MercenaryType.WARLOCK: this.warlockPrice = Math.floor(this.baseWarlockPrice * Math.pow(1.15, this.warlocksOwned)); break;
             }
-
-            // Update the interface
-            var leftReduction;
-            switch (type) {
-                case MercenaryType.FOOTMAN:
-                    document.getElementById("footmanCost").innerHTML = this.footmanPrice.formatMoney(0);
-                    document.getElementById("footmenOwned").innerHTML = this.footmenOwned;
-                    break;
-                case MercenaryType.CLERIC:
-                    document.getElementById("clericCost").innerHTML = this.clericPrice.formatMoney(0);
-                    document.getElementById("clericsOwned").innerHTML = this.clericsOwned;
-                    break;
-                case MercenaryType.COMMANDER:
-                    document.getElementById("commanderCost").innerHTML = this.commanderPrice.formatMoney(0);
-                    document.getElementById("commandersOwned").innerHTML = this.commandersOwned;
-                    break;
-                case MercenaryType.MAGE:
-                    document.getElementById("mageCost").innerHTML = this.magePrice.formatMoney(0);
-                    document.getElementById("magesOwned").innerHTML = this.magesOwned;
-                    break;
-                case MercenaryType.ASSASSIN:
-                    document.getElementById("assassinCost").innerHTML = this.assassinPrice.formatMoney(0);
-                    document.getElementById("assassinsOwned").innerHTML = this.assassinsOwned;
-                    break;
-                case MercenaryType.WARLOCK:
-                    document.getElementById("warlockCost").innerHTML = this.warlockPrice.formatMoney(0);
-                    document.getElementById("warlocksOwned").innerHTML = this.warlocksOwned;
-                    break;
-            }
         }
     }
 
@@ -268,25 +230,6 @@ function mercenaryManager() {
                     this.mercenaries[x].type = MercenaryType.ASSASSIN;
                 }
             }
-
-            // Update the mercenary purchase buttons
-            document.getElementById("footmanCost").innerHTML = this.footmanPrice.formatMoney(0);
-            document.getElementById("footmenOwned").innerHTML = this.footmenOwned;
-
-            document.getElementById("clericCost").innerHTML = this.clericPrice.formatMoney(0);
-            document.getElementById("clericsOwned").innerHTML = this.clericsOwned;
-
-            document.getElementById("commanderCost").innerHTML = this.commanderPrice.formatMoney(0);
-            document.getElementById("commandersOwned").innerHTML = this.commandersOwned;
-
-            document.getElementById("mageCost").innerHTML = this.magePrice.formatMoney(0);
-            document.getElementById("magesOwned").innerHTML = this.magesOwned;
-
-            document.getElementById("assassinCost").innerHTML = this.assassinPrice.formatMoney(0);
-            document.getElementById("assassinsOwned").innerHTML = this.assassinsOwned;
-
-            document.getElementById("warlockCost").innerHTML = this.warlockPrice.formatMoney(0);
-            document.getElementById("warlocksOwned").innerHTML = this.warlocksOwned;
         }
     }
 }

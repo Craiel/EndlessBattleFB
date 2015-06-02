@@ -1,24 +1,5 @@
 function Player() {
     this.level = 1;
-    this.health = 250;
-
-    // Base values for all stats; these are static
-    this.baseStats = new StatsSet();
-    this.baseStats.health = this.health;
-    this.baseStats.hp5 = 0;
-    this.baseStats.minDamage = 1;
-    this.baseStats.maxDamage = 1;
-    this.baseStats.damageBonus = 0;
-    this.baseStats.armour = 0;
-    this.baseStats.evasion = 0;
-    this.baseStats.strength = 0;
-    this.baseStats.agility = 0;
-    this.baseStats.stamina = 0;
-    this.baseStats.critChance = 0.05;
-    this.baseStats.critDamage = 1.5;
-    this.baseStats.itemRarity = 0;
-    this.baseStats.goldGain = 0;
-    this.baseStats.experienceGain = 0;
 
     // Stat bonuses automatically gained when leveling up
     this.baseLevelUpBonuses = new StatsSet();
@@ -332,6 +313,11 @@ function Player() {
 
     this.update = function update(ms) {
         this.buffs.update(ms);
+    }
+
+    this.initialize = function() {
+        this.health = game.systems.playerBaseHealth;
+        this.baseStats = game.systems.getPlayerBaseStats();
     }
 
     // Update all the debuffs on the player

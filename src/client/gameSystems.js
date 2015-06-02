@@ -43,9 +43,6 @@ declare('GameSystems', function() {
 
         this.healthPerStamina = 5;
         this.armorPerStamina = 0.01;
-        this.critPerAgility = 0.01;
-
-
 
         this.baseItemDropChance = 0.10;
 
@@ -236,17 +233,17 @@ declare('GameSystems', function() {
     GameSystems.prototype.getMinDamage = function() {
         var baseValue = legacyGame.player.baseStats.minDamage + legacyGame.player.baseItemBonuses.minDamage;
         baseValue += this.getStrength();
-        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
+        var multiplier = this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
 
-        return 1 + Math.floor(baseValue * multiplier);
+        return Math.floor(baseValue * multiplier);
     };
 
     GameSystems.prototype.getMaxDamage = function() {
         var baseValue = legacyGame.player.baseStats.maxDamage + legacyGame.player.baseItemBonuses.maxDamage;
         baseValue += this.getStrength();
-        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
+        var multiplier = this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
 
-        return 1 + Math.floor(baseValue * multiplier);
+        return Math.floor(baseValue * multiplier);
     };
 
     GameSystems.prototype.getAverageDamage = function() {
@@ -300,8 +297,6 @@ declare('GameSystems', function() {
 
     GameSystems.prototype.getCritChance = function() {
         var baseValue = legacyGame.player.baseStats.critChance + legacyGame.player.baseItemBonuses.critChance;
-        baseValue += this.getAgility() * this.critPerAgility;
-
         var multiplier = 1;
 
         var value = this.critMin + (baseValue * multiplier);
@@ -317,6 +312,27 @@ declare('GameSystems', function() {
         var multiplier = 1 + this.getWarlockCritDamageMultiplier();
 
         return baseValue * multiplier;
+    };
+
+    GameSystems.prototype.getPlayerBaseStats = function() {
+        var stats = new StatsSet();
+        stats = new StatsSet();
+        stats.health = this.playerBaseHealth;
+        stats.hp5 = 0;
+        stats.minDamage = 1;
+        stats.maxDamage = 1;
+        stats.damageBonus = 0;
+        stats.armour = 0;
+        stats.evasion = 0;
+        stats.strength = 1;
+        stats.agility = 1;
+        stats.stamina = 1;
+        stats.critChance = 0;
+        stats.critDamage = 0;
+        stats.itemRarity = 0;
+        stats.goldGain = 0;
+        stats.experienceGain = 0;
+        return stats;
     };
 
     // ---------------------------------------------------------------------------

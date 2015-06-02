@@ -275,6 +275,7 @@ declare('UserInterface', function () {
         this.updateBattleDisplay(gameTime);
         this.updateUpgrades(gameTime);
         this.updatePlayerStats(gameTime);
+        this.updateMercenaries(gameTime);
 
         if(!legacyGame.player.alive) {
             // Update the resurrection bar
@@ -464,6 +465,21 @@ declare('UserInterface', function () {
 
         control.hide();
     };
+
+    UserInterface.prototype.updateMercenaries = function(gameTime) {
+        document.getElementById("footmanCost").innerHTML = legacyGame.mercenaryManager.footmanPrice.formatMoney(0);
+        document.getElementById("footmenOwned").innerHTML = legacyGame.mercenaryManager.footmenOwned;
+        document.getElementById("clericCost").innerHTML = legacyGame.mercenaryManager.clericPrice.formatMoney(0);
+        document.getElementById("clericsOwned").innerHTML = legacyGame.mercenaryManager.clericsOwned;
+        document.getElementById("commanderCost").innerHTML = legacyGame.mercenaryManager.commanderPrice.formatMoney(0);
+        document.getElementById("commandersOwned").innerHTML = legacyGame.mercenaryManager.commandersOwned;
+        document.getElementById("mageCost").innerHTML = legacyGame.mercenaryManager.magePrice.formatMoney(0);
+        document.getElementById("magesOwned").innerHTML = legacyGame.mercenaryManager.magesOwned;
+        document.getElementById("assassinCost").innerHTML = legacyGame.mercenaryManager.assassinPrice.formatMoney(0);
+        document.getElementById("assassinsOwned").innerHTML = legacyGame.mercenaryManager.assassinsOwned;
+        document.getElementById("warlockCost").innerHTML = legacyGame.mercenaryManager.warlockPrice.formatMoney(0);
+        document.getElementById("warlocksOwned").innerHTML = legacyGame.mercenaryManager.warlocksOwned;
+    }
 
     // ---------------------------------------------------------------------------
     // utility functions

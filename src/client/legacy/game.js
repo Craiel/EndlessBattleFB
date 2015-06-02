@@ -48,9 +48,10 @@ function Game() {
 
     this.initialize = function initialize() {
         this.beginLoading();
-        this.mercenaryManager.initialize();
         this.upgradeManager.initialize();
         this.particleManager.initialize();
+
+        this.player.initialize();
 
         this.load();
 
@@ -432,8 +433,11 @@ function Game() {
         game.reset();
 
         localStorage.clear();
+
         // Player
         this.player = new Player();
+        this.player.initialize();
+
         this.inventory = new Inventory();
         this.equipment = new Equipment();
         this.nameGenerator = new NameGenerator();
@@ -486,18 +490,7 @@ function Game() {
         $("#attackButton").css('background', 'url("includes/images/attackButtons.png") 150px 0');
 
         // Reset the mercenary amounts and prices to default
-        document.getElementById("footmanCost").innerHTML = this.mercenaryManager.footmanPrice.formatMoney(0);
-        document.getElementById("footmenOwned").innerHTML = this.mercenaryManager.footmenOwned;
-        document.getElementById("clericCost").innerHTML = this.mercenaryManager.clericPrice.formatMoney(0);
-        document.getElementById("clericsOwned").innerHTML = this.mercenaryManager.clericsOwned;
-        document.getElementById("commanderCost").innerHTML = this.mercenaryManager.commanderPrice.formatMoney(0);
-        document.getElementById("commandersOwned").innerHTML = this.mercenaryManager.commandersOwned;
-        document.getElementById("mageCost").innerHTML = this.mercenaryManager.magePrice.formatMoney(0);
-        document.getElementById("magesOwned").innerHTML = this.mercenaryManager.magesOwned;
-        document.getElementById("assassinCost").innerHTML = this.mercenaryManager.assassinPrice.formatMoney(0);
-        document.getElementById("assassinsOwned").innerHTML = this.mercenaryManager.assassinsOwned;
-        document.getElementById("warlockCost").innerHTML = this.mercenaryManager.warlockPrice.formatMoney(0);
-        document.getElementById("warlocksOwned").innerHTML = this.mercenaryManager.warlocksOwned;
+
     }
 
     this.update = function update() {
