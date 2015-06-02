@@ -165,7 +165,7 @@ declare('GameSystems', function() {
 
     GameSystems.prototype.getGoldMultiplier = function() {
         var baseValue = legacyGame.player.baseStats.goldGain + legacyGame.player.baseItemBonuses.goldGain;
-        var multiplier = 1 + this.getOverallMultiplier() + legacyGame.player.buffs.getGoldMultiplier();
+        var multiplier = this.getOverallMultiplier() + legacyGame.player.buffs.getGoldMultiplier();
 
         return (baseValue / 100) * multiplier;
     };
@@ -233,20 +233,31 @@ declare('GameSystems', function() {
         return baseValue * multiplier;
     };
 
+    GameSystems.prototype.getStrengthDamageMultiplier = function() {
+        var strength = this.getStrength();
+        if(strength > 0) {
+            return Math.log(strength) - 1;
+        }
+
+        return 0;
+    };
+
     GameSystems.prototype.getMinDamage = function() {
         var baseValue = legacyGame.player.baseStats.minDamage + legacyGame.player.baseItemBonuses.minDamage;
-        baseValue += this.getStrength();
-        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
+        var multiplier = this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
+        multiplier += this.getStrengthDamageMultiplier();
 
-        return 1 + Math.floor(baseValue * multiplier);
+        console.log();
+
+        return Math.floor(baseValue * multiplier);
     };
 
     GameSystems.prototype.getMaxDamage = function() {
         var baseValue = legacyGame.player.baseStats.maxDamage + legacyGame.player.baseItemBonuses.maxDamage;
-        baseValue += this.getStrength();
-        var multiplier = 1 + this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
+        var multiplier = this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
+        multiplier += this.getStrengthDamageMultiplier();
 
-        return 1 + Math.floor(baseValue * multiplier);
+        return Math.floor(baseValue * multiplier);
     };
 
     GameSystems.prototype.getAverageDamage = function() {

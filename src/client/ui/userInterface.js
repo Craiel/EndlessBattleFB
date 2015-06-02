@@ -385,8 +385,8 @@ declare('UserInterface', function () {
         $('#critChanceValue').text(game.systems.getCritChance().formatMultiplier());
         $('#critDamageValue').text(game.systems.getCritDamageMultiplier().formatMultiplier());
 
-        $('#itemRarityValue').text(game.systems.getRarityMultiplier().formatMultiplier());
-        $('#goldGainValue').text(game.systems.getGoldMultiplier().formatMultiplier());
+        $('#itemRarityValue').text(game.systems.getRarityMultiplier().formatPercentageMultiplier());
+        $('#goldGainValue').text(game.systems.getGoldMultiplier().formatPercentageMultiplier());
         $('#experienceGainValue').text(game.systems.getExperienceMultiplier().formatMultiplier());
     }
 

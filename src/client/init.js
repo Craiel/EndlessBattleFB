@@ -28,6 +28,10 @@ Number.prototype.formatPercentage = function(decimals) {
     return this.formatMoney(decimals) + '%';
 };
 
+Number.prototype.formatPercentageMultiplier = function() {
+    return (this * 100).formatPercentage();
+};
+
 Number.prototype.formatMultiplier = function() {
     return (this * 100).formatMoney(2) + '%';
 };
