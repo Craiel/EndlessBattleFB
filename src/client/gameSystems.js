@@ -6,7 +6,7 @@ declare('GameSystems', function() {
         this.shardMultiplier = 0.02;
         this.resetMultiplier = 0.01;
 
-        this.playerBaseHealth = 250;
+        this.playerBaseHealth = 100;
 
         this.playerBaseExperienceRequired = 20;
         this.playerExperiencePow = 2.5; // Needs sync with monsterExperiencePow
@@ -236,7 +236,12 @@ declare('GameSystems', function() {
     GameSystems.prototype.getStrengthDamageMultiplier = function() {
         var strength = this.getStrength();
         if(strength > 0) {
-            return Math.log(strength) - 1;
+            var value = Math.log(strength) - 1;
+            if(value < 0) {
+                return 0;
+            }
+
+            return value;
         }
 
         return 0;
@@ -244,18 +249,14 @@ declare('GameSystems', function() {
 
     GameSystems.prototype.getMinDamage = function() {
         var baseValue = legacyGame.player.baseStats.minDamage + legacyGame.player.baseItemBonuses.minDamage;
-        var multiplier = this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
-        multiplier += this.getStrengthDamageMultiplier();
-
-        console.log();
+        var multiplier = 1 + this.getDamageBonusMultiplier() + this.getStrengthDamageMultiplier();
 
         return Math.floor(baseValue * multiplier);
     };
 
     GameSystems.prototype.getMaxDamage = function() {
         var baseValue = legacyGame.player.baseStats.maxDamage + legacyGame.player.baseItemBonuses.maxDamage;
-        var multiplier = this.getDamageBonusMultiplier() + legacyGame.player.buffs.getDamageMultiplier();
-        multiplier += this.getStrengthDamageMultiplier();
+        var multiplier = 1 + this.getDamageBonusMultiplier() + this.getStrengthDamageMultiplier();
 
         return Math.floor(baseValue * multiplier);
     };
@@ -340,9 +341,9 @@ declare('GameSystems', function() {
         stats.damageBonus = 0;
         stats.armour = 0;
         stats.evasion = 0;
-        stats.strength = 1;
-        stats.agility = 1;
-        stats.stamina = 1;
+        stats.strength = 10;
+        stats.agility = 10;
+        stats.stamina = 10;
         stats.critChance = 0;
         stats.critDamage = 0;
         stats.itemRarity = 0;

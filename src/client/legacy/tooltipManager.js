@@ -135,7 +135,6 @@ function TooltipManager() {
         var leftReduction = document.getElementById("itemTooltip").scrollWidth;
         $("#itemTooltip").css('left', left - leftReduction - 30);
 
-
         // If there is another item then display the tooltip next to this one
         if (item2 != null) {
             var info2 = this.getItemTooltipInfo(item2);
